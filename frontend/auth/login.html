@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job_Portal - Login</title>
+
+    <!-- custom links -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../auth/css/login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="image-container">
+        <img src="../Assets/Public/Filing system.svg" alt="register-img" />
+      </div>
+      <div class="form-container">
+        <h2>Login to your account.</h2>
+
+        <form class="form_login" id="jobseeker-form">
+          <div class="login-row">
+            <div class="login-field">
+              <input
+                id="email_id"
+                type="text"
+                placeholder="Email Id"
+                required
+              />
+              <p id="emailError"></p>
+            </div>
+          </div>
+
+          <div class="password">
+            <div class="login-field">
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+              />
+              <span
+                class="toggle-password"
+                onclick="togglePassword('password',this)"
+              >
+                <img src="../Assets/icons/hide.png" />
+              </span>
+            </div>
+          </div>
+
+          <button id="loginBtn" class="submit-btn" type="submit">Log in</button>
+          <div class="login">
+            <p>Don't have a account?<a href="register.html"> Register</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="../auth/js/login.js"></script>
+  </body>
+</html>

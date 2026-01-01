@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job_Portal - Register</title>
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../auth/css/register.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="image-container">
+        <img src="../Assets/Public/Filing system.svg" alt="register-img" />
+      </div>
+
+      <div class="form-container">
+        <h2>Create account.</h2>
+        <p class="user-type">Select the user type!</p>
+
+        <!-- SELECT USER TYPE -->
+        <div id="select-user">
+          <label class="user-option">
+            <input type="radio" name="userType" value="jobseeker" checked />
+            <span>Job Seeker</span>
+          </label>
+
+          <label class="user-option">
+            <input type="radio" name="userType" value="employer" />
+            <span>Employer</span>
+          </label>
+        </div>
+
+        <!-- ========================== -->
+        <!-- JOB SEEKER FORM (FORM 1)   -->
+        <!-- ========================== -->
+        <form class="form jobseeker-form" id="jobseeker-form">
+          <div class="name-row">
+            <div class="name-field">
+              <input
+                id="first_name"
+                type="text"
+                placeholder="First Name"
+                required
+              />
+            </div>
+            <div class="name-field">
+              <input
+                id="last_name"
+                type="text"
+                placeholder="Last Name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-field">
+              <input
+                id="email_id"
+                type="text"
+                placeholder="Email Id"
+                required
+              />
+              <p id="emailError" style="color: red; font-size: 13px"></p>
+            </div>
+            <div class="contact-field">
+              <input
+                id="mobile_number"
+                type="tel"
+                placeholder="Mobile Number"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="password">
+            <div class="password-field">
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+              />
+              <span
+                class="toggle-password"
+                onclick="togglePassword('password',this)"
+              >
+                <img src="../Assets/icons/hide.png" />
+              </span>
+            </div>
+
+            <div class="password-field">
+              <input
+                type="password"
+                id="confirm-password"
+                placeholder="Confirm Password"
+                required
+              />
+              <span
+                class="toggle-password"
+                onclick="togglePassword('confirm-password',this)"
+              >
+                <img src="../Assets/icons/hide.png" />
+              </span>
+            </div>
+          </div>
+
+          <button id="registerBtn" class="submit-btn" type="submit">
+            Create Job Seeker Account
+          </button>
+          <div class="login">
+            <p>Already have a account?<a href="login.html"> Login</a></p>
+          </div>
+        </form>
+
+        <!-- ========================== -->
+        <!-- EMPLOYER FORM (FORM 1)    -->
+        <!-- ========================== -->
+        <form class="form employer-form" id="employer-form">
+          <p>Select company size & industry</p>
+
+          <div class="company-field">
+            <!-- COMPANY SIZE -->
+            <div class="custom-select" data-name="companySize">
+              <div class="selected">Company Size</div>
+              <div class="options">
+                <div>1-5 Employers</div>
+                <div>5-20 Employers</div>
+                <div>20-50 Employers</div>
+                <div>50-100 Employers</div>
+                <div>100+ Employers</div>
+              </div>
+            </div>
+
+            <!-- INDUSTRY -->
+            <div class="custom-select" data-name="industry">
+              <div class="selected">Industry Type</div>
+              <div class="options">
+                <div>Accounting</div>
+                <div>Administrative</div>
+                <div>Agriculture</div>
+                <div>Architecture</div>
+                <div>Banking</div>
+                <div>Designing</div>
+                <div>Education</div>
+                <div>Engineering</div>
+                <div>Medical</div>
+                <div>IT</div>
+                <div>Media</div>
+                <div>Other</div>
+              </div>
+            </div>
+
+            <!-- hidden values stored by JS -->
+            <input type="hidden" id="companySizeInput" />
+            <input type="hidden" id="industryInput" />
+
+            <button type="button" class="continue-btn" id="continueBtn">
+              Continue
+            </button>
+          </div>
+          <div class="login">
+            <p>Already have a account?<a href="login.html"> Login</a></p>
+          </div>
+        </form>
+
+        <!-- ========================== -->
+        <!-- EMPLOYER FORM (FORM 2)    -->
+        <!-- ========================== -->
+        <form
+          class="form employer-detail-form"
+          id="employer-detail-form"
+          style="display: none"
+        >
+          <div class="name-row">
+            <div class="name-field">
+              <input
+                id="company_name"
+                type="text"
+                placeholder="Company Name"
+                required
+              />
+            </div>
+            <div class="name-field">
+              <input
+                id="company_location"
+                type="text"
+                placeholder="Location"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-field">
+              <input
+                id="company_email"
+                type="text"
+                placeholder="Email Id"
+                required
+              />
+            </div>
+            <div class="contact-field">
+              <input
+                id="company_mobile"
+                type="tel"
+                placeholder="Mobile Number"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="password">
+            <div class="password-field">
+              <input
+                type="password"
+                id="company_password"
+                placeholder="Password"
+                required
+              />
+              <span
+                class="toggle-password"
+                onclick="togglePassword('company_password', this)"
+              >
+                <img src="../Assets/icons/hide.png" />
+              </span>
+            </div>
+
+            <div class="password-field">
+              <input
+                type="password"
+                id="company_confirm_password"
+                placeholder="Confirm Password"
+                required
+              />
+              <span
+                class="toggle-password"
+                onclick="togglePassword('company_confirm_password', this)"
+              >
+                <img src="../Assets/icons/hide.png" />
+              </span>
+            </div>
+          </div>
+
+          <button id="employersRegisterBtn" type="submit" class="continue-btn">
+            Create Account
+          </button>
+          <div class="login">
+            <p>Already have a account?<a href="login.html"> Login</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="../auth/js/register.js"></script>
+  </body>
+</html>
