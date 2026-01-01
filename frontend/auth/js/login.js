@@ -26,7 +26,6 @@ loginForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({ email, password }),
     });
 
-    // check content type
     const contentType = res.headers.get("content-type");
     let data;
     if (contentType && contentType.includes("application/json")) {
@@ -50,8 +49,10 @@ loginForm.addEventListener("submit", async (e) => {
     // REDIRECT based on role
     if (data.user.role === "jobseeker") {
       window.location.href = "../jobseeker/dashboard.html";
-    } else {
+    } else if (data.user.role === "employer") {
       window.location.href = "../employer/dashboard.html";
+    } else {
+      showError("Invalid user role");
     }
   } catch (err) {
     console.error(err);
