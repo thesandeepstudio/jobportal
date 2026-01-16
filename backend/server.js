@@ -3,16 +3,17 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const session = require("express-session");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs"); // CHANGED: Standardized to bcryptjs
 
 const db = require("./config/db");
+const authRoutes = require("./routes/authRoutes"); // 1️⃣ IMPORT ROUTES
 
 const app = express();
 
 /* ----------------- MIDDLEWARE ----------------- */
 app.use(
   cors({
-    origin: "http://localhost:5000", // change if frontend runs elsewhere
+    origin: "http://localhost:5000",
     credentials: true,
   })
 );
@@ -25,7 +26,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "admin_secret",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }, // true if HTTPS
+    cookie: { secure: false }, // Set to true if using https
   })
 );
 
@@ -35,16 +36,21 @@ app.use("/auth", express.static(path.join(__dirname, "../frontend/auth")));
 app.use("/assets", express.static(path.join(__dirname, "../frontend/Assets")));
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-/* ----------------- ROUTES ----------------- */
+/* ----------------- API ROUTES ----------------- */
 app.get("/", (req, res) => {
   res.send("Backend working!");
 });
+
+// 2️⃣ MOUNT AUTH ROUTES
+// This makes http://localhost:5000/auth/register work
+app.use("/auth", authRoutes);
 
 /* ----------------- ADMIN LOGIN ----------------- */
 app.post("/admin-login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    // Check if user exists and is admin
     const [rows] = await db.query(
       "SELECT * FROM users WHERE email = ? AND role = 'admin'",
       [username]
@@ -95,8 +101,8 @@ app.get("/admin/total-users", async (req, res) => {
     );
 
     res.json({
-      users: rows[0].total_users,
-      companies: rows[0].total_companies,
+      users: rows[0].total_users || 0,
+      companies: rows[0].total_companies || 0,
     });
   } catch (err) {
     console.error(err);
@@ -117,7 +123,7 @@ app.get("/admin/recent-users", async (req, res) => {
        LIMIT 10`
     );
 
-    res.json(rows); // send last 10 users
+    res.json(rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

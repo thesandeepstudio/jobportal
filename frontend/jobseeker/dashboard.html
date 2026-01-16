@@ -3,9 +3,515 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dashboard</title>
+
+    <title>Job Portal - Home</title>
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="./index.css" />
+
+    <!-- icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
   </head>
+
   <body>
-    this is dashboard
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="link-container">
+        <div class="logo">
+          <a class="navbar-brand" href="#">Job Portal</a>
+        </div>
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="#">Find Jobs</a>
+          <a href="#">Employers</a>
+          <a href="#">Customer Supports</a>
+          <a href="#">Blogs</a>
+        </div>
+
+        <div class="user-circle">
+          <i class="fa-solid fa-circle-user"></i>
+        </div>
+        <!-- <div class="login-btn">
+          <a class="login" href="auth/login.html">Login</a>
+          <a class="register" href="auth/register.html">Register</a>
+        </div> -->
+      </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1>Find Your Dream Job</h1>
+          <p class="lead">Connect job seekers and employers easily.</p>
+
+          <!-- job Search -->
+          <div class="search-wrapper">
+            <div class="job-search">
+              <input
+                class="input-jobs"
+                type="text"
+                placeholder="Search Jobs..."
+              />
+            </div>
+            <!-- hero section buttons -->
+            <div class="hero-btn">
+              <a href="#" class="search-job">Search</a>
+            </div>
+          </div>
+          <p class="suggestion">
+            <span class="label">Suggestion:</span>
+            <span class="tag1">Designer,</span>
+            <span class="tag2">Programming,</span>
+            <span class="tag3">Digital Marketing,</span>
+            <span class="tag4">Video,</span>
+            <span class="tag5">Animation</span>
+          </p>
+        </div>
+        <img
+          src="../Assets/Public/Filing system.svg"
+          alt="hero_image"
+        />
+      </div>
+    </section>
+
+    <!-- vacancy sections  -->
+    <section class="vacancies">
+      <h2 class="section-title">Most Popular Jobs</h2>
+
+      <div class="vacancy-grid">
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">Digital Marketing</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">Graphic Designer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">Video Editor</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">PHP Developer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">QA Engineer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">Digital Marketing</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">Graphic Designer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">Video Editor</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">PHP Developer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">QA Engineer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">PHP Developer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+        <div class="vacancy-item">
+          <a href="#" class="vacancy-link">QA Engineer</a>
+          <span class="vacancy-count">120 Open Position</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- how job portal works -->
+    <section class="how">
+      <div class="how-container">
+        <h2 class="section-title">How Job Portal Works</h2>
+
+        <div class="process-grid">
+          <div class="process-item">
+            <i class="fa-solid fa-user-plus process-icon"></i>
+            <h3>Create Account</h3>
+            <p>
+              Sign up for a free account to access job listings and apply for
+              positions.
+            </p>
+          </div>
+
+          <div class="process-item">
+            <i class="fa-solid fa-file-arrow-up process-icon"></i>
+            <h3>Upload CV</h3>
+            <p>
+              Upload your CV to showcase your skills and experience to potential
+              employers.
+            </p>
+          </div>
+
+          <div class="process-item">
+            <i class="fa-solid fa-magnifying-glass process-icon"></i>
+            <h3>Find Suitable Jobs</h3>
+            <p>
+              Browse job listings and apply for positions that match your skills
+              and experience.
+            </p>
+          </div>
+
+          <div class="process-item">
+            <i class="fa-solid fa-paper-plane process-icon"></i>
+            <h3>Apply Jobs</h3>
+            <p>Apply for jobs that interest you and submit your application.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- category -->
+    <section class="categories">
+      <h2 class="section-title">Popular Categories</h2>
+
+      <div class="categories-grid">
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">Digital Marketing</a>
+            <span class="category-count">357 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-paintbrush"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">Graphics & Design</a>
+            <span class="category-count">95 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-video"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">Video Editing</a>
+            <span class="category-count">80 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">Web Development</a>
+            <span class="category-count">150 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-check-circle"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">QA Testing</a>
+            <span class="category-count">60 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-pencil-ruler"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">UI/UX Design</a>
+            <span class="category-count">70 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-brands fa-php"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">PHP Development</a>
+            <span class="category-count">110 Open Positions</span>
+          </div>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-keyboard"></i>
+          </div>
+          <div class="category-text">
+            <a href="#" class="category-link">Content Writing</a>
+            <span class="category-count">85 Open Positions</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- top companies -->
+    <section class="top-companies">
+      <div class="companies-container">
+        <h2 class="section-title">Top Companies</h2>
+
+        <div class="companies-grid">
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-google"></i>
+              </div>
+              <div class="company-details">
+                <h3>Google</h3>
+                <p>Kathmandu, Nepal</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-microsoft"></i>
+              </div>
+              <div class="company-details">
+                <h3>Microsoft</h3>
+                <p>Lalitpur, Nepal</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-amazon"></i>
+              </div>
+              <div class="company-details">
+                <h3>Amazon</h3>
+                <p>Bhaktapur, Nepal</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-apple"></i>
+              </div>
+              <div class="company-details">
+                <h3>Apple</h3>
+                <p>Pokhara, Nepal</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-meta"></i>
+              </div>
+              <div class="company-details">
+                <h3>Meta</h3>
+                <p>Kathmandu, Nepal</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-linkedin"></i>
+              </div>
+              <div class="company-details">
+                <h3>LinkedIn</h3>
+                <p>Lalitpur, Nepal</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-spotify"></i>
+              </div>
+              <div class="company-details">
+                <h3>Spotify</h3>
+                <p>Remote</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+
+          <div class="company-list">
+            <div class="company-header">
+              <div class="company-icon">
+                <i class="fa-brands fa-netflix"></i>
+              </div>
+              <div class="company-details">
+                <h3>Netflix</h3>
+                <p>Remote</p>
+              </div>
+            </div>
+            <button class="position-btn">Open Position</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="testimonials-container">
+        <h2 class="section-title">What Our Clients Say</h2>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "The team was professional and delivered exceptional results.
+              Highly recommended!"
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/women/44.jpg"
+                alt="Jane Doe"
+                class="author-img"
+              />
+              <div class="author-info">
+                <h4>Jane Doe</h4>
+                <p>CEO, TechCorp</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "Amazing experience! The project exceeded our expectations in
+              every way."
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/men/36.jpg"
+                alt="John Smith"
+                class="author-img"
+              />
+              <div class="author-info">
+                <h4>John Smith</h4>
+                <p>Marketing Head, Creativa</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "Professional, timely, and innovative. We couldn't ask for more!"
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/women/65.jpg"
+                alt="Lisa Ray"
+                class="author-img"
+              />
+              <div class="author-info">
+                <h4>Lisa Ray</h4>
+                <p>Founder, StartUp Hub</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "Their attention to detail and customer service is unmatched."
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/men/28.jpg"
+                alt="David Lee"
+                class="author-img"
+              />
+              <div class="author-info">
+                <h4>David Lee</h4>
+                <p>COO, InnovateX</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- About Section -->
+        <div class="footer-about">
+          <h3>Job Portal</h3>
+          <p>
+            Connecting job seekers and employers seamlessly. Your dream job is
+            just a click away.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Find Jobs</a></li>
+            <li><a href="#">Employers</a></li>
+            <li><a href="#">Blogs</a></li>
+            <li><a href="#">Customer Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Support Links -->
+        <div class="footer-support">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter / Social -->
+        <div class="footer-newsletter">
+          <h4>Subscribe</h4>
+          <p>Get the latest job updates in your inbox.</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Enter your email" />
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Job Portal Management System. All Rights Reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>
