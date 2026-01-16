@@ -3,157 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - Job Portal</title>
-
-    <!-- Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Admin CSS -->
-    <link rel="stylesheet" href="./css/dashboard.css" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/admin/css/dashboard.css" />
   </head>
+
   <body>
-    <div class="dashboard">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <h2>Job Portal Admin</h2>
-        </div>
-        <ul class="sidebar-menu">
-          <li>
-            <a href="#"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa-solid fa-briefcase"></i> Jobs</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa-solid fa-users"></i> Users</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa-solid fa-building"></i> Companies</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa-solid fa-envelope"></i> Messages</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa-solid fa-chart-line"></i> Reports</a>
-          </li>
-          <li>
-            <a href="../admin/login.html"
-              ><i class="fa-solid fa-right-from-bracket"></i> Logout</a
-            >
-          </li>
-        </ul>
-      </aside>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <h2>Admin Panel</h2>
+      <nav>
+        <a class="active" href="#">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Companies</a>
+        <a href="#">Jobs</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+      </nav>
+      <button id="logout-btn">Logout</button>
+    </aside>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Top Navbar -->
-        <header class="topbar">
-          <div class="topbar-left">
-            <h1>Dashboard</h1>
-          </div>
-          <div class="topbar-right">
-            <div class="search-box">
-              <input type="text" placeholder="Search..." />
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-            <div class="profile">
-              <img
-                src="../Assets/Public/Filing system.svg"
-                alt="Admin Profile"
-              />
-              <span>Admin</span>
-            </div>
-          </div>
-        </header>
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+      <h3>Welcome, Admin</h3>
+      <input
+        type="text"
+        name="searchbar"
+        id="searchbar"
+        placeholder="Search..."
+      />
+    </header>
 
-        <!-- Stats Cards -->
-        <div class="stats-cards">
-          <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
-            <div class="card-info">
-              <h3>120</h3>
-              <p>Total Jobs</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-users"></i></div>
-            <div class="card-info">
-              <h3>350</h3>
-              <p>Total Users</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-building"></i></div>
-            <div class="card-info">
-              <h3>45</h3>
-              <p>Total Companies</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-envelope"></i></div>
-            <div class="card-info">
-              <h3>89</h3>
-              <p>New Messages</p>
-            </div>
-          </div>
-        </div>
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+      <h1>Admin Dashboard</h1>
 
-        <!-- Tables -->
-        <div class="dashboard-tables">
-          <div class="table-container">
-            <h3>Recent Job Postings</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Job Title</th>
-                  <th>Company</th>
-                  <th>Location</th>
-                  <th>Applicants</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Frontend Developer</td>
-                  <td>Google</td>
-                  <td>Kathmandu</td>
-                  <td>24</td>
-                  <td><span class="status active">Active</span></td>
-                </tr>
-                <tr>
-                  <td>PHP Developer</td>
-                  <td>Amazon</td>
-                  <td>Bhaktapur</td>
-                  <td>17</td>
-                  <td><span class="status inactive">Inactive</span></td>
-                </tr>
-                <tr>
-                  <td>Graphic Designer</td>
-                  <td>Apple</td>
-                  <td>Pokhara</td>
-                  <td>12</td>
-                  <td><span class="status active">Active</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </main>
+      <div class="stats">
+        <p>Total Users : <span id="total-users">Loading...</span></p>
+        <p>Total Companies : <span id="total-companies">Loading...</span></p>
+      </div>
+
+      <section class="table-section">
+        <h3>Recent Users</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
     </div>
 
-    <!-- Chart.js (Optional) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Admin JS -->
-    <script src="./js/dashboard.js"></script>
+    <script src="js/dashboard.js"></script>
   </body>
 </html>
