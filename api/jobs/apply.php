@@ -1,0 +1,44 @@
+<?php
+session_start();
+header("Content-Type: application/json");
+require '../db.php';
+
+// Auth Check
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'jobseeker') {
+    echo json_encode(["status" => false, "message" => "Unauthorized"]);
+    exit;
+}
+
+$data = json_decode(file_get_contents("php://input"), true);
+$job_id = $data['job_id'];
+
+try {
+    // 1. Get JobSeeker ID
+    $stmt = $pdo->prepare("SELECT id FROM jobseekers WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $seeker = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$seeker) {
+        echo json_encode(["status" => false, "message" => "Profile not found"]);
+        exit;
+    }
+
+    // 2. Check if already applied
+    $check = $pdo->prepare("SELECT id FROM applications WHERE job_id = ? AND jobseeker_id = ?");
+    $check->execute([$job_id, $seeker['id']]);
+    if ($check->rowCount() > 0) {
+        echo json_encode(["status" => false, "message" => "You have already applied for this job."]);
+        exit;
+    }
+
+    // 3. Insert Application
+    $sql = "INSERT INTO applications (job_id, jobseeker_id) VALUES (?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$job_id, $seeker['id']]);
+
+    echo json_encode(["status" => true, "message" => "Application Submitted Successfully!"]);
+
+} catch (Exception $e) {
+    echo json_encode(["status" => false, "message" => "DB Error: " . $e->getMessage()]);
+}
+?>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post a Job</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: { extend: { colors: { primary: "#407bff" } } },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 font-sans">
+    
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-primary">Employer Panel</h1>
+                    <div class="hidden md:flex ml-10 space-x-8">
+                        <a href="dashboard.html" class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">
+                            Dashboard
+                        </a>
+                        <!-- ACTIVE LINK -->
+                        <a href="post_job.html" class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium">
+                            Post a Job
+                        </a>
+                        <a href="applications.html" class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">
+                            Applications
+                        </a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <button id="logoutBtn" class="ml-4 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg mb-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Post a New Job</h2>
+
+      <form id="postJobForm" class="space-y-6">
+        <!-- Title -->
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">Job Title</label>
+          <input
+            type="text"
+            id="title"
+            required
+            placeholder="e.g. Senior React Developer"
+            class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Category -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Category</label>
+            <select
+              id="category"
+              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
+            >
+              <option value="IT">IT & Software</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Design">Design</option>
+              <option value="Finance">Finance</option>
+              <option value="HR">Human Resources</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Medical">Medical</option>
+            </select>
+          </div>
+
+          <!-- Job Type -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Job Type</label>
+            <select
+              id="job_type"
+              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
+            >
+              <option value="Full Time">Full Time</option>
+              <option value="Part Time">Part Time</option>
+              <option value="Contract">Contract</option>
+              <option value="Freelance">Freelance</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Salary -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2"
+              >Salary Range</label
+            >
+            <input
+              type="text"
+              id="salary"
+              placeholder="e.g. $50k - $70k"
+              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+            />
+          </div>
+
+          <!-- Location -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Location</label>
+            <input
+              type="text"
+              id="location"
+              required
+              placeholder="e.g. Remote / New York"
+              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-gray-700 font-medium mb-2"
+            >Job Description</label
+          >
+          <textarea
+            id="description"
+            rows="5"
+            required
+            placeholder="Describe the role and requirements..."
+            class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+          ></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 rounded-lg shadow-md transition"
+        >
+          Post Job
+        </button>
+      </form>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+      document
+        .getElementById("postJobForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const data = {
+            title: document.getElementById("title").value,
+            category: document.getElementById("category").value,
+            job_type: document.getElementById("job_type").value,
+            salary: document.getElementById("salary").value,
+            location: document.getElementById("location").value,
+            description: document.getElementById("description").value,
+          };
+
+          try {
+            // Path: users/employer/post_job.html -> ../../api/jobs/create.php
+            const res = await fetch("../../api/jobs/create.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+
+            if (result.status) {
+              alert("Job Posted Successfully! Pending Admin Approval.");
+              window.location.href = "dashboard.html"; 
+            } else {
+              alert(result.message || "Failed to post job");
+              if (result.message.includes("Unauthorized")) {
+                window.location.href = "../../auth/login.html";
+              }
+            }
+          } catch (err) {
+            console.error(err);
+            alert("Server Error");
+          }
+        });
+
+      // Logout Logic
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async () => {
+          if(confirm("Are you sure you want to logout?")) {
+            await fetch("../../api/logout.php");
+            window.location.href = "../../auth/login.html";
+          }
+        });
+    </script>
+  </body>
+</html>

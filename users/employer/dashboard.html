@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#407bff", "primary-hover": "#2563eb" },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <!-- NAVBAR -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <h1 class="text-2xl font-bold text-primary">Employer Panel</h1>
+            <div class="hidden md:flex ml-10 space-x-8">
+              <a
+                href="dashboard.html"
+                class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium"
+                >Dashboard</a
+              >
+              <!-- LINK TO POST JOB -->
+              <a
+                href="post_job.html"
+                class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
+                >Post a Job</a
+              >
+              <a
+                href="applications.html"
+                class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
+              >
+                Applications
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <button
+              id="logoutBtn"
+              class="ml-4 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+      <!-- WELCOME & ACTION SECTION -->
+      <div class="md:flex md:items-center md:justify-between mb-8">
+        <div class="flex-1 min-w-0">
+          <h2
+            class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate"
+          >
+            Welcome Back!
+          </h2>
+          <p class="mt-1 text-sm text-gray-500">
+            Manage your job postings and applicants.
+          </p>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+          <!-- PRIMARY ACTION BUTTON -->
+          <a
+            href="post_job.html"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          >
+            <i class="fas fa-plus mr-2"></i> Post New Job
+          </a>
+        </div>
+      </div>
+
+      <!-- STATS CARDS -->
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+        <!-- 1. Jobs Posted -->
+        <div
+          class="bg-white overflow-hidden shadow rounded-lg border border-gray-100"
+        >
+          <div class="px-4 py-5 sm:p-6 flex items-center">
+            <div class="p-3 rounded-full bg-blue-50 text-primary mr-4">
+              <i class="fas fa-briefcase text-2xl"></i>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 truncate">
+                Total Jobs Posted
+              </dt>
+              <dd
+                class="mt-1 text-3xl font-semibold text-gray-900"
+                id="totalJobs"
+              >
+                0
+              </dd>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Applications Received [NEW] -->
+        <div
+          class="bg-white overflow-hidden shadow rounded-lg border border-gray-100"
+        >
+          <div class="px-4 py-5 sm:p-6 flex items-center">
+            <div class="p-3 rounded-full bg-purple-50 text-purple-600 mr-4">
+              <i class="fas fa-users text-2xl"></i>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 truncate">
+                Total Applications
+              </dt>
+              <dd
+                class="mt-1 text-3xl font-semibold text-gray-900"
+                id="totalApplicants"
+              >
+                0
+              </dd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JOBS TABLE -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Your Job Postings
+          </h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Title
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Type
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Posted Date
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody id="jobsTableBody" class="bg-white divide-y divide-gray-200">
+              <!-- JS WILL INJECT ROWS HERE -->
+              <tr>
+                <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                  Loading jobs...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", async () => {
+            if (confirm("Logout?")) {
+              await fetch("../../api/logout.php");
+              window.location.href = "../../auth/login.html";
+            }
+          });
+
+        try {
+          const res = await fetch("../../api/jobs/list_employer.php");
+          const data = await res.json();
+
+          const tbody = document.getElementById("jobsTableBody");
+          tbody.innerHTML = "";
+
+          if (data.status) {
+            // UPDATE STATS
+            document.getElementById("totalJobs").innerText = data.data.length;
+            document.getElementById("totalApplicants").innerText =
+              data.total_applicants || 0;
+
+            if (data.data.length > 0) {
+              data.data.forEach((job) => {
+                let statusBadge = "";
+                if (job.status === "active") {
+                  statusBadge = `<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>`;
+                } else if (job.status === "rejected") {
+                  statusBadge = `<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>`;
+                } else {
+                  statusBadge = `<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Approval</span>`;
+                }
+
+                const row = `
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">${job.title}</div>
+                                        <div class="text-sm text-gray-500">${job.category}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${job.job_type}</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        ${new Date(job.created_at).toLocaleDateString()}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
+                                </tr>
+                            `;
+                tbody.innerHTML += row;
+              });
+            } else {
+              tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No jobs posted yet. <a href="post_job.html" class="text-primary hover:underline">Post one now!</a></td></tr>`;
+            }
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
+</html>
