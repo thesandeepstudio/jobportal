@@ -7,9 +7,7 @@ A comprehensive Job Portal application built with **Core PHP**, **MySQL**, and *
 ## 🚀 1. Installation & Setup
 
 ### Step 1: Clone the Repository
-
 If you haven't cloned the project yet, run:
-
 ```bash
 git clone https://github.com/questraj/4th-sem-project-BE.git
 Step 2: Update Code
@@ -131,7 +129,7 @@ CREATE TABLE notifications (
 -- 7. DEFAULT ADMIN USER
 -- =============================================
 -- Email: admin@gmail.com | Password: adminpassword
-INSERT INTO users (email, password, role, created_at) VALUES
+INSERT INTO users (email, password, role, created_at) VALUES 
 ('admin@gmail.com', '$2y$10$WE3ZqZ9Cnm.IB48y1l6/nuYKVOtg9ENHbFe8yvsjxsxfLm2odAOIi', 'admin', NOW());
 🏃 3. Running the Project
 To start the built-in PHP server, open your terminal in the project folder and run:
@@ -158,4 +156,3 @@ Job Seeker: Profile management, Job search, Apply for jobs, View status.
 Employer: Post jobs, Manage applicants, Schedule interviews.
 Admin: Approve jobs, Manage users, System statistics.
 Notifications: Real-time updates on application status.
-```
