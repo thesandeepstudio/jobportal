@@ -4,8 +4,17 @@ header("Content-Type: application/json");
 require '../db.php';
 
 try {
-    // Fetch ONLY Active Jobs
-    $sql = "SELECT j.id, j.title, j.category, j.job_type, j.salary, j.location, j.created_at, e.company_name 
+    // FIXED: Added 'j.description' to the SELECT list
+    $sql = "SELECT 
+                j.id, 
+                j.title, 
+                j.category, 
+                j.job_type, 
+                j.salary, 
+                j.description,  /* <--- THIS WAS MISSING */
+                j.location, 
+                j.created_at, 
+                e.company_name 
             FROM jobs j 
             JOIN employers e ON j.employer_id = e.id 
             WHERE j.status = 'active' 

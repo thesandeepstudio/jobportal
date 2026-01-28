@@ -289,11 +289,26 @@
         <div
           class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3"
         >
+          <!-- Close (Always visible) -->
           <button
             onclick="closeModal()"
             class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
           >
             Close
+          </button>
+
+          <!-- Reject/Approve (Only visible if Pending) -->
+          <button
+            id="btn-reject"
+            class="hidden px-4 py-2 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-medium transition"
+          >
+            Reject
+          </button>
+          <button
+            id="btn-approve"
+            class="hidden px-4 py-2 bg-green-500 text-white hover:bg-green-600 rounded-lg font-medium shadow-md transition"
+          >
+            Approve & Publish
           </button>
         </div>
       </div>
@@ -353,7 +368,6 @@
 
       // --- 2. OPEN PREVIEW MODAL ---
       function openJobModal(index) {
-        // Actually, let's find the job by ID from the global array to be safe
         const job = allJobs.find((j) => j.id == index);
         if (!job) return;
 
@@ -372,26 +386,75 @@
           .charAt(0)
           .toUpperCase();
 
-        // Status Badge logic for modal
+        // Status Badge Logic
         const badge = document.getElementById("modal-status-badge");
-        if (job.status === "active") {
-          badge.className =
-            "px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700";
-          badge.innerText = "Active";
-        } else if (job.status === "pending") {
+        const btnApprove = document.getElementById("btn-approve");
+        const btnReject = document.getElementById("btn-reject");
+
+        // RESET Buttons (Clone to remove old listeners)
+        const newApprove = btnApprove.cloneNode(true);
+        const newReject = btnReject.cloneNode(true);
+        btnApprove.parentNode.replaceChild(newApprove, btnApprove);
+        btnReject.parentNode.replaceChild(newReject, btnReject);
+
+        // Add new listeners
+        newApprove.onclick = () => updateJobStatus(job.id, "active");
+        newReject.onclick = () => updateJobStatus(job.id, "rejected");
+
+        // Show/Hide Buttons based on status
+        if (job.status === "pending") {
           badge.className =
             "px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-700";
           badge.innerText = "Pending";
+          newApprove.classList.remove("hidden");
+          newReject.classList.remove("hidden");
         } else {
-          badge.className =
-            "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
-          badge.innerText = "Rejected";
+          // If already active or rejected, hide action buttons
+          newApprove.classList.add("hidden");
+          newReject.classList.add("hidden");
+
+          if (job.status === "active") {
+            badge.className =
+              "px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700";
+            badge.innerText = "Active";
+          } else {
+            badge.className =
+              "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
+            badge.innerText = "Rejected";
+          }
         }
 
         toggleModal(true);
       }
 
-      // --- 3. DELETE JOB ---
+      // --- 3. APPROVE / REJECT JOB (NEW) ---
+      async function updateJobStatus(id, status) {
+        if (!confirm(`Are you sure you want to mark this job as ${status}?`))
+          return;
+
+        try {
+          const res = await fetch("../api/admin/update_job_status.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ job_id: id, status: status }),
+          });
+
+          const result = await res.json();
+
+          if (result.status) {
+            alert(`Job marked as ${status}`);
+            closeModal();
+            loadJobs(); // Refresh table
+          } else {
+            alert("Error: " + result.message);
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Server communication failed.");
+        }
+      }
+
+      // --- 4. DELETE JOB ---
       async function deleteJob(id) {
         if (!confirm("Are you sure you want to delete this job post?")) return;
 
@@ -415,7 +478,7 @@
         }
       }
 
-      // --- 4. HELPER: TOGGLE MODAL ---
+      // --- 5. HELPER: TOGGLE MODAL ---
       function toggleModal(show) {
         const modal = document.getElementById("jobModal");
         const content = document.getElementById("modalContent");
@@ -435,7 +498,7 @@
         toggleModal(false);
       }
 
-      // --- 5. RENDER TABLE ---
+      // --- 6. RENDER TABLE ---
       function renderTable(data) {
         const tbody = document.getElementById("jobs-table-body");
         tbody.innerHTML = "";
@@ -461,7 +524,6 @@
 
           tr.innerHTML = `
                 <td class="px-6 py-4 cursor-pointer" onclick="openJobModal(${job.id})">
-                    <!-- ID REMOVED HERE -->
                     <div class="font-bold text-gray-800 group-hover:text-primary transition">${job.title}</div>
                 </td>
                 <td class="px-6 py-4 text-gray-600 font-medium">${job.company_name}</td>
@@ -484,7 +546,7 @@
         });
       }
 
-      // --- 6. FILTERS ---
+      // --- 7. FILTERS ---
       function filterJobs(status) {
         // Reset Button Styles
         ["all", "active", "pending", "rejected"].forEach((s) => {
