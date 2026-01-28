@@ -27,12 +27,12 @@
           <div class="flex items-center">
             <h1 class="text-2xl font-bold text-primary">Employer Panel</h1>
             <div class="hidden md:flex ml-10 space-x-8">
+              <!-- ACTIVE LINK -->
               <a
                 href="dashboard.html"
                 class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium"
                 >Dashboard</a
               >
-              <!-- LINK TO POST JOB -->
               <a
                 href="post_job.html"
                 class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
@@ -42,7 +42,7 @@
                 href="applications.html"
                 class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
               >
-                applications
+                Applications
               </a>
             </div>
           </div>
@@ -107,7 +107,7 @@
           </div>
         </div>
 
-        <!-- 2. Applications Received [NEW] -->
+        <!-- 2. Applications Received -->
         <div
           class="bg-white overflow-hidden shadow rounded-lg border border-gray-100"
         >
@@ -171,7 +171,7 @@
               <!-- JS WILL INJECT ROWS HERE -->
               <tr>
                 <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-                  Loading jobs...
+                  <i class="fas fa-spinner fa-spin mr-2"></i> Loading jobs...
                 </td>
               </tr>
             </tbody>
@@ -182,6 +182,7 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
+        // Logout Logic
         document
           .getElementById("logoutBtn")
           .addEventListener("click", async () => {
@@ -192,7 +193,9 @@
           });
 
         try {
-          const res = await fetch("../../api/jobs/list_employer.php");
+          // --- CACHE BUSTING FIX ---
+          // The timestamp (?t=...) forces the browser to fetch fresh data
+          const res = await fetch(`../../api/jobs/list_employer.php?t=${new Date().getTime()}`);
           const data = await res.json();
 
           const tbody = document.getElementById("jobsTableBody");
@@ -207,37 +210,44 @@
             if (data.data.length > 0) {
               data.data.forEach((job) => {
                 let statusBadge = "";
-                if (job.status === "active") {
+                
+                // Status Logic (Lowercase check for safety)
+                const status = job.status ? job.status.toLowerCase() : 'pending';
+
+                if (status === "active") {
                   statusBadge = `<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>`;
-                } else if (job.status === "rejected") {
+                } else if (status === "rejected") {
                   statusBadge = `<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>`;
                 } else {
                   statusBadge = `<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Approval</span>`;
                 }
 
                 const row = `
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">${job.title}</div>
-                                        <div class="text-sm text-gray-500">${job.category}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${job.job_type}</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        ${new Date(job.created_at).toLocaleDateString()}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
-                                </tr>
-                            `;
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${job.title}</div>
+                            <div class="text-sm text-gray-500">${job.category || 'General'}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${job.job_type}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${new Date(job.created_at).toLocaleDateString()}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
+                    </tr>
+                `;
                 tbody.innerHTML += row;
               });
             } else {
               tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No jobs posted yet. <a href="post_job.html" class="text-primary hover:underline">Post one now!</a></td></tr>`;
             }
+          } else if(data.message === "Unauthorized") {
+              window.location.href = "../../auth/login.html";
           }
         } catch (err) {
           console.error(err);
+          document.getElementById("jobsTableBody").innerHTML = `<tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Failed to load data.</td></tr>`;
         }
       });
     </script>

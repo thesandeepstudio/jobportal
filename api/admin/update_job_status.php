@@ -1,18 +1,18 @@
 <?php
-session_start();
 header("Content-Type: application/json");
 require '../db.php';
 
-// Auth Check
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     echo json_encode(["status" => false, "message" => "Unauthorized"]);
     exit;
 }
 
-// Get Data
+// *** CRITICAL FIX: Unlock the session ***
+session_write_close();
+
 $data = json_decode(file_get_contents("php://input"), true);
 $job_id = $data['job_id'];
-$status = $data['status']; // 'active' or 'rejected'
+$status = $data['status'];
 
 if (!$job_id || !$status) {
     echo json_encode(["status" => false, "message" => "Missing data"]);
@@ -22,9 +22,7 @@ if (!$job_id || !$status) {
 try {
     $stmt = $pdo->prepare("UPDATE jobs SET status = ? WHERE id = ?");
     $stmt->execute([$status, $job_id]);
-
     echo json_encode(["status" => true, "message" => "Job marked as " . $status]);
-
 } catch (Exception $e) {
     echo json_encode(["status" => false, "message" => "Update failed"]);
 }

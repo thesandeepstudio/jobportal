@@ -1,7 +1,17 @@
 <?php
+// 1. Suppress PHP Error display (Logs them instead of printing to screen)
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
+// 2. Start Output Buffering (Catches any accidental whitespace or warnings)
+ob_start();
+
 session_start();
 header("Content-Type: application/json");
 require '../db.php';
+
+// 3. Clear Buffer (Ensures no previous output exists)
+ob_clean(); 
 
 // Auth Check: Admin Only
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
@@ -10,8 +20,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 try {
-    // 1. Fetch Data
-    // REMOVED 'e.logo_path' to prevent SQL errors
+    // 4. Fetch Data
     $sql = "SELECT 
                 j.id, 
                 j.title, 
@@ -30,11 +39,9 @@ try {
     $stmt = $pdo->query($sql);
     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // 2. Data Normalization
-    // Ensure 'status' is always lowercase so filters work correctly on frontend
+    // 5. Data Normalization
     foreach ($jobs as &$job) {
         $job['status'] = strtolower($job['status'] ?? 'pending');
-        // Handle null values for cleaner JSON
         $job['category'] = $job['category'] ?? 'General';
         $job['location'] = $job['location'] ?? 'Remote';
     }
