@@ -17,6 +17,7 @@
         },
       };
     </script>
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -193,7 +194,7 @@
     <!-- JOB PREVIEW MODAL -->
     <div
       id="jobModal"
-      class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[60] backdrop-blur-md"
+      class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm"
     >
       <div
         class="bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 relative"
@@ -284,15 +285,27 @@
           </div>
         </div>
 
-        <!-- Modal Footer -->
+        <!-- Modal Footer (Updated) -->
         <div
           class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3"
         >
           <button
             onclick="closeModal()"
-            class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+            class="px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-lg font-medium transition"
           >
-            Close
+            Cancel
+          </button>
+          <button
+            id="btn-reject"
+            class="hidden px-4 py-2 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-medium transition"
+          >
+            Reject
+          </button>
+          <button
+            id="btn-approve"
+            class="hidden px-4 py-2 bg-green-500 text-white hover:bg-green-600 rounded-lg font-medium shadow-md transition"
+          >
+            Approve & Publish
           </button>
         </div>
       </div>
@@ -332,7 +345,6 @@
       // --- 1. FETCH JOBS (WITH CACHE BUSTER) ---
       async function loadJobs() {
         try {
-          // Added ?t=... to prevent browser caching
           const res = await fetch(
             `../api/admin/jobs.php?t=${new Date().getTime()}`,
           );
@@ -341,12 +353,17 @@
 
           const result = await res.json();
 
+          if (result.message === "Unauthorized") {
+            alert("Session expired. Please login again.");
+            window.location.href = "login.html";
+            return;
+          }
+
           if (result.status) {
             allJobs = result.data;
             document.getElementById("total-count").innerText = allJobs.length;
             renderTable(allJobs);
           } else {
-            // Show error message from server if available
             console.warn(result.message);
             document.getElementById("jobs-table-body").innerHTML =
               `<tr><td colspan="6" class="px-6 py-4 text-center">No jobs found.</td></tr>`;
@@ -367,7 +384,8 @@
         document.getElementById("modal-title").innerText = job.title;
         document.getElementById("modal-company").innerText = job.company_name;
         document.getElementById("modal-location").innerText = job.location;
-        document.getElementById("modal-salary").innerText = job.salary || "N/A";
+        document.getElementById("modal-salary").innerText =
+          job.salary || "N/A";
         document.getElementById("modal-type").innerText = job.job_type;
         document.getElementById("modal-cat").innerText = job.category;
         document.getElementById("modal-date").innerText = new Date(
@@ -380,24 +398,73 @@
 
         // Status Badge logic for modal
         const badge = document.getElementById("modal-status-badge");
-        if (job.status === "active") {
-          badge.className =
-            "px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700";
-          badge.innerText = "Active";
-        } else if (job.status === "pending") {
+        const btnApprove = document.getElementById("btn-approve");
+        const btnReject = document.getElementById("btn-reject");
+
+        // Clone to remove old listeners
+        const newApprove = btnApprove.cloneNode(true);
+        const newReject = btnReject.cloneNode(true);
+        btnApprove.parentNode.replaceChild(newApprove, btnApprove);
+        btnReject.parentNode.replaceChild(newReject, btnReject);
+
+        // Add listeners
+        newApprove.onclick = () => updateJobStatus(job.id, "active");
+        newReject.onclick = () => updateJobStatus(job.id, "rejected");
+
+        // Show/Hide Buttons based on status
+        if (job.status === "pending") {
           badge.className =
             "px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-700";
           badge.innerText = "Pending";
+          newApprove.classList.remove("hidden");
+          newReject.classList.remove("hidden");
         } else {
-          badge.className =
-            "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
-          badge.innerText = "Rejected";
+          // If already active or rejected, hide action buttons
+          newApprove.classList.add("hidden");
+          newReject.classList.add("hidden");
+
+          if (job.status === "active") {
+            badge.className =
+              "px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700";
+            badge.innerText = "Active";
+          } else {
+            badge.className =
+              "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
+            badge.innerText = "Rejected";
+          }
         }
 
         toggleModal(true);
       }
 
-      // --- 3. DELETE JOB ---
+      // --- 3. APPROVE / REJECT JOB ---
+      async function updateJobStatus(id, status) {
+        if (!confirm(`Are you sure you want to mark this job as ${status}?`))
+          return;
+
+        try {
+          const res = await fetch("../api/admin/update_job_status.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ job_id: id, status: status }),
+          });
+
+          const result = await res.json();
+
+          if (result.status) {
+            alert(`Job marked as ${status}`);
+            closeModal();
+            loadJobs(); // Refresh table
+          } else {
+            alert("Error: " + result.message);
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Server communication failed.");
+        }
+      }
+
+      // --- 4. DELETE JOB ---
       async function deleteJob(id) {
         if (!confirm("Are you sure you want to delete this job post?")) return;
 
@@ -421,7 +488,7 @@
         }
       }
 
-      // --- 4. HELPER: TOGGLE MODAL ---
+      // --- 5. HELPER: TOGGLE MODAL ---
       function toggleModal(show) {
         const modal = document.getElementById("jobModal");
         const content = document.getElementById("modalContent");
@@ -441,7 +508,7 @@
         toggleModal(false);
       }
 
-      // --- 5. RENDER TABLE ---
+      // --- 6. RENDER TABLE ---
       function renderTable(data) {
         const tbody = document.getElementById("jobs-table-body");
         tbody.innerHTML = "";
@@ -489,7 +556,7 @@
         });
       }
 
-      // --- 6. FILTERS ---
+      // --- 7. FILTERS ---
       function filterJobs(status) {
         // Reset Button Styles
         ["all", "active", "pending", "rejected"].forEach((s) => {

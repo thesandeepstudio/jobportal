@@ -1,26 +1,24 @@
 <?php
-// 1. Suppress PHP Error display (Logs them instead of printing to screen)
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-
-// 2. Start Output Buffering (Catches any accidental whitespace or warnings)
+// 1. Clean Output Buffer to remove any previous PHP warnings/notices
 ob_start();
 
-session_start();
-header("Content-Type: application/json");
+// 2. Include DB (This safely starts the session now)
 require '../db.php';
 
-// 3. Clear Buffer (Ensures no previous output exists)
-ob_clean(); 
+// 3. Set JSON Header explicitly
+header("Content-Type: application/json");
 
-// Auth Check: Admin Only
+// 4. Clear Buffer again just before outputting JSON
+ob_clean();
+
+// 5. Auth Check
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     echo json_encode(["status" => false, "message" => "Unauthorized"]);
     exit;
 }
 
 try {
-    // 4. Fetch Data
+    // Fetch Data
     $sql = "SELECT 
                 j.id, 
                 j.title, 
@@ -39,7 +37,7 @@ try {
     $stmt = $pdo->query($sql);
     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // 5. Data Normalization
+    // Data Normalization
     foreach ($jobs as &$job) {
         $job['status'] = strtolower($job['status'] ?? 'pending');
         $job['category'] = $job['category'] ?? 'General';

@@ -1,17 +1,16 @@
 <?php
-// 1. Safe Session Start
+// 1. Prevent Browser Caching (Keep this, it's important for the data update issue)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+// 2. Safe Session Start (Standard Version)
+// We removed the 'ini_set' and 'cookie_params' lines to prevent localhost conflicts
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 2. DISABLE BROWSER CACHING (Crucial for your issue)
-// This tells the browser: "Always ask the server for fresh data"
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-
-// Database Configuration
+// 3. Database Connection
 $host = 'localhost';
 $db   = 'jobportal';
 $user = 'root';
@@ -20,7 +19,11 @@ $pass = '';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Fix for integer handling
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    $pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
 } catch (PDOException $e) {
-    die(json_encode(["status" => false, "message" => "Database Connection Failed"]));
+    header("Content-Type: application/json");
+    die(json_encode(["status" => false, "message" => "DB Connection Failed"]));
 }
 ?>

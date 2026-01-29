@@ -1,17 +1,26 @@
 <?php
+// 1. Suppress PHP Error display (Logs them instead of printing to screen)
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
+// 2. Start Output Buffering
+ob_start();
+
 session_start();
 header("Content-Type: application/json");
 require '../db.php';
 
-// Auth Check: Admin Only
+// 3. Clear Buffer (Removes any accidental whitespace/warnings)
+ob_clean(); 
+
+// Auth Check
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     echo json_encode(["status" => false, "message" => "Unauthorized"]);
     exit;
 }
 
 try {
-    // We fetch from 'jobseekers' table. 
-    // Since Admins don't have records in 'jobseekers', they are automatically hidden.
+    // 4. Fetch Data (Strictly Job Seekers)
     $sql = "SELECT 
                 j.id, 
                 j.user_id,
@@ -26,6 +35,8 @@ try {
                 u.created_at
             FROM jobseekers j
             JOIN users u ON j.user_id = u.id
+            WHERE u.role = 'jobseeker' 
+            AND u.role != 'admin'
             ORDER BY u.created_at DESC";
             
     $stmt = $pdo->query($sql);
