@@ -11,23 +11,55 @@ require 'db.php';
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
-// Check if data is empty
 if (!$data) {
     echo json_encode(["status" => false, "message" => "No data received"]);
     exit;
 }
 
-// 3. Extract Common Data
 $role = $data['role'] ?? '';
 $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
 $mobile = $data['mobile'] ?? '';
 
-// Basic Validation
+// --- VALIDATION START ---
+
+// A. Check Empty Fields
 if (empty($role) || empty($email) || empty($password)) {
     echo json_encode(["status" => false, "message" => "Missing required fields"]);
     exit;
 }
+
+// B. Validate Email Format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(["status" => false, "message" => "Invalid email format. Please use a valid address."]);
+    exit;
+}
+
+// C. STRONG PASSWORD VALIDATION (Backend)
+if (strlen($password) < 8) {
+    echo json_encode(["status" => false, "message" => "Password must be at least 8 characters long."]);
+    exit;
+}
+if (!preg_match('/[A-Z]/', $password)) {
+    echo json_encode(["status" => false, "message" => "Password must contain at least one uppercase letter."]);
+    exit;
+}
+if (!preg_match('/[0-9]/', $password)) {
+    echo json_encode(["status" => false, "message" => "Password must contain at least one number."]);
+    exit;
+}
+if (!preg_match('/[\W]/', $password)) { // \W checks for non-alphanumeric chars (symbols)
+    echo json_encode(["status" => false, "message" => "Password must contain at least one special character."]);
+    exit;
+}
+// Check if password contains the email username
+$username = explode('@', $email)[0];
+if (strpos(strtolower($password), strtolower($username)) !== false) {
+    echo json_encode(["status" => false, "message" => "Password cannot contain your email username."]);
+    exit;
+}
+
+// --- VALIDATION END ---
 
 try {
     // 4. Check if Email already exists
@@ -38,7 +70,7 @@ try {
         exit;
     }
 
-    // 5. Start Transaction (Ensures both tables update, or neither does)
+    // 5. Start Transaction
     $pdo->beginTransaction();
 
     // 6. Insert into Users Table
@@ -77,7 +109,6 @@ try {
     echo json_encode(["status" => true, "message" => "Account created successfully!"]);
 
 } catch (Exception $e) {
-    // Rollback changes if something went wrong
     $pdo->rollBack();
     echo json_encode(["status" => false, "message" => "Server Error: " . $e->getMessage()]);
 }

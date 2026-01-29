@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form"); // Changed ID in HTML to match
+  const loginForm = document.getElementById("login-form");
   const emailInput = document.getElementById("email_id");
   const passwordInput = document.getElementById("password");
   const emailError = document.getElementById("emailError");
@@ -22,26 +22,32 @@ document.addEventListener("DOMContentLoaded", () => {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Clear previous errors
     if (emailError) emailError.innerText = "";
 
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
+    // A. Check Empty
     if (!email || !password) {
       if (emailError) emailError.innerText = "Please fill in all fields.";
       return;
     }
 
+    // B. Check Email Format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      if (emailError)
+        emailError.innerText = "Please enter a valid email address.";
+      return;
+    }
+
     try {
-      // FIX: Pointing to PHP API
       const res = await fetch("../api/login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      // Check content type to prevent crash on PHP errors
       const contentType = res.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         throw new Error("Server Error: Received non-JSON response.");
@@ -55,14 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // --- 3. LOGIN SUCCESS ---
-
-      // Store user info in LocalStorage (Optional, since PHP session handles auth)
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Alert Success
-      // alert("Login Successful!");
-
-      // Redirect based on Role
       if (data.user.role === "jobseeker") {
         window.location.href = "../users/jobseeker/dashboard.html";
       } else if (data.user.role === "employer") {

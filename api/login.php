@@ -1,8 +1,8 @@
 <?php
-// 1. Start Session (Must be the very first thing)
+// 1. Start Session
 session_start();
 
-// 2. Headers for API access
+// 2. Headers
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
@@ -14,7 +14,6 @@ require 'db.php';
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
-// Check if data is received
 if (!$data) {
     echo json_encode(["status" => false, "message" => "No data received"]);
     exit;
@@ -23,11 +22,21 @@ if (!$data) {
 $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
 
-// Basic Validation
+// --- VALIDATION START ---
+
+// A. Check Empty
 if (empty($email) || empty($password)) {
     echo json_encode(["status" => false, "message" => "Email and Password are required"]);
     exit;
 }
+
+// B. Validate Email Format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(["status" => false, "message" => "Invalid email format"]);
+    exit;
+}
+
+// --- VALIDATION END ---
 
 try {
     // 4. Find user in Database
@@ -39,13 +48,10 @@ try {
     if ($user && password_verify($password, $user['password'])) {
         
         // --- LOGIN SUCCESS ---
-
-        // Set Server Session Variables
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['email'] = $user['email'];
 
-        // Send response back to Frontend
         echo json_encode([
             "status" => true,
             "message" => "Login Successful",
@@ -57,7 +63,6 @@ try {
         ]);
 
     } else {
-        // --- LOGIN FAILED ---
         echo json_encode(["status" => false, "message" => "Invalid Email or Password"]);
     }
 

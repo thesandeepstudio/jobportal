@@ -4,17 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Job Portal - Register</title>
-
-    <!-- 1. Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- 2. Custom Color Configuration -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: "#407bff", // Your brand color
+              primary: "#407bff",
               "primary-hover": "#2563eb",
               secondary: "#5c5c5c",
               muted: "#8a8a8a",
@@ -23,8 +19,6 @@
         },
       };
     </script>
-
-    <!-- Custom Styles for Scrollbar inside dropdowns -->
     <style>
       .options::-webkit-scrollbar {
         width: 6px;
@@ -33,7 +27,6 @@
         background-color: #cbd5e1;
         border-radius: 4px;
       }
-      /* Keep this class for JS toggling */
       .custom-select.active .options {
         display: block;
       }
@@ -42,11 +35,10 @@
   <body
     class="bg-gray-100 min-h-screen flex items-center justify-center font-sans p-4"
   >
-    <!-- MAIN CONTAINER -->
     <div
       class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl overflow-hidden flex min-h-[600px]"
     >
-      <!-- LEFT SIDE: IMAGE (Hidden on Mobile) -->
+      <!-- LEFT SIDE: IMAGE -->
       <div
         class="hidden md:flex w-1/2 bg-blue-50 items-center justify-center p-8"
       >
@@ -62,9 +54,8 @@
         <h2 class="text-3xl font-bold text-gray-800 mb-2">Create account.</h2>
         <p class="text-secondary mb-6">Select the user type!</p>
 
-        <!-- SELECT USER TYPE (Radio Cards) -->
+        <!-- SELECT USER TYPE -->
         <div id="select-user" class="flex gap-4 mb-8">
-          <!-- Job Seeker Option -->
           <label class="flex-1 cursor-pointer">
             <input
               type="radio"
@@ -79,8 +70,6 @@
               Job Seeker
             </div>
           </label>
-
-          <!-- Employer Option -->
           <label class="flex-1 cursor-pointer">
             <input
               type="radio"
@@ -105,16 +94,13 @@
               id="first_name"
               type="text"
               placeholder="First Name"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
             />
-
             <input
               id="last_name"
               type="text"
               placeholder="Last Name"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
             />
           </div>
 
@@ -124,35 +110,33 @@
                 id="email_id"
                 type="email"
                 placeholder="Email Id"
-                required
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
               />
-              <p id="emailError" class="text-red-500 text-xs mt-1 pl-1"></p>
+              <!-- ERROR MESSAGE FOR EMAIL -->
+              <p
+                id="js-email-error"
+                class="text-red-500 text-xs mt-1 font-medium"
+              ></p>
             </div>
-
             <input
               id="mobile_number"
               type="tel"
               placeholder="Mobile Number"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
             />
           </div>
 
-          <!-- Passwords -->
           <div class="relative">
             <input
               type="password"
               id="password"
               placeholder="Password"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition pr-10"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition pr-10"
             />
             <span
-              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100 toggle-password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100"
               onclick="togglePassword('password', this)"
             >
-              <!-- Replace with icon tag or img -->
               <img src="../assets/Icons/hide.png" class="w-5 h-5" alt="Show" />
             </span>
           </div>
@@ -162,21 +146,26 @@
               type="password"
               id="confirm-password"
               placeholder="Confirm Password"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition pr-10"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition pr-10"
             />
             <span
-              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100 toggle-password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100"
               onclick="togglePassword('confirm-password', this)"
             >
               <img src="../assets/Icons/hide.png" class="w-5 h-5" alt="Show" />
             </span>
           </div>
 
+          <!-- GENERAL ERROR MESSAGE -->
+          <p
+            id="js-general-error"
+            class="text-red-500 text-sm font-medium text-center"
+          ></p>
+
           <button
             id="registerBtn"
             type="submit"
-            class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 rounded-lg transition-all shadow-md mt-4"
+            class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 rounded-lg transition-all shadow-md mt-2"
           >
             Create Job Seeker Account
           </button>
@@ -189,15 +178,13 @@
           <p class="text-sm text-secondary font-medium">
             Select company size & industry
           </p>
-
           <div class="space-y-4">
-            <!-- COMPANY SIZE DROPDOWN -->
+            <!-- DROPDOWNS (Kept same logic) -->
             <div class="custom-select relative w-full" data-name="companySize">
               <div
                 class="selected bg-white border border-gray-300 text-gray-700 px-4 py-3 rounded-lg cursor-pointer hover:border-primary flex justify-between items-center"
               >
-                Company Size
-                <span class="text-xs text-gray-400">▼</span>
+                Company Size <span class="text-xs text-gray-400">▼</span>
               </div>
               <div
                 class="options hidden absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-xl mt-1 max-h-48 overflow-y-auto"
@@ -230,13 +217,11 @@
               </div>
             </div>
 
-            <!-- INDUSTRY DROPDOWN -->
             <div class="custom-select relative w-full" data-name="industry">
               <div
                 class="selected bg-white border border-gray-300 text-gray-700 px-4 py-3 rounded-lg cursor-pointer hover:border-primary flex justify-between items-center"
               >
-                Industry Type
-                <span class="text-xs text-gray-400">▼</span>
+                Industry Type <span class="text-xs text-gray-400">▼</span>
               </div>
               <div
                 class="options hidden absolute z-20 w-full bg-white border border-gray-200 rounded-lg shadow-xl mt-1 max-h-48 overflow-y-auto"
@@ -245,11 +230,6 @@
                   class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-gray-700"
                 >
                   Accounting
-                </div>
-                <div
-                  class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-gray-700"
-                >
-                  Administrative
                 </div>
                 <div
                   class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-gray-700"
@@ -274,7 +254,6 @@
               </div>
             </div>
 
-            <!-- Hidden Inputs for JS -->
             <input type="hidden" id="companySizeInput" />
             <input type="hidden" id="industryInput" />
 
@@ -297,34 +276,35 @@
               id="company_name"
               type="text"
               placeholder="Company Name"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
             />
-
             <input
               id="company_location"
               type="text"
               placeholder="Location"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
             />
           </div>
 
           <div class="flex flex-col sm:flex-row gap-4">
-            <input
-              id="company_email"
-              type="text"
-              placeholder="Email Id"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
-            />
-
+            <div class="w-full">
+              <input
+                id="company_email"
+                type="text"
+                placeholder="Email Id"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
+              />
+              <!-- ERROR MESSAGE FOR EMPLOYER EMAIL -->
+              <p
+                id="emp-email-error"
+                class="text-red-500 text-xs mt-1 font-medium"
+              ></p>
+            </div>
             <input
               id="company_mobile"
               type="tel"
               placeholder="Mobile Number"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition"
             />
           </div>
 
@@ -333,11 +313,10 @@
               type="password"
               id="company_password"
               placeholder="Password"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition pr-10"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition pr-10"
             />
             <span
-              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100 toggle-password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100"
               onclick="togglePassword('company_password', this)"
             >
               <img src="../assets/Icons/hide.png" class="w-5 h-5" alt="Show" />
@@ -349,27 +328,31 @@
               type="password"
               id="company_confirm_password"
               placeholder="Confirm Password"
-              required
-              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-blue-100 outline-none transition pr-10"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary outline-none transition pr-10"
             />
             <span
-              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100 toggle-password"
+              class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer opacity-60 hover:opacity-100"
               onclick="togglePassword('company_confirm_password', this)"
             >
               <img src="../assets/Icons/hide.png" class="w-5 h-5" alt="Show" />
             </span>
           </div>
 
+          <!-- GENERAL ERROR MESSAGE EMPLOYER -->
+          <p
+            id="emp-general-error"
+            class="text-red-500 text-sm font-medium text-center"
+          ></p>
+
           <button
             id="employersRegisterBtn"
             type="submit"
-            class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 rounded-lg transition-all shadow-md mt-4"
+            class="w-full bg-primary hover:bg-primary-hover text-white font-semibold py-3 rounded-lg transition-all shadow-md mt-2"
           >
             Create Account
           </button>
         </form>
 
-        <!-- LOGIN LINK (Shared) -->
         <div class="text-center mt-6 text-sm text-gray-500">
           Already have an account?
           <a
@@ -381,7 +364,6 @@
       </div>
     </div>
 
-    <!-- JS Logic -->
     <script src="js/register.js"></script>
   </body>
 </html>
