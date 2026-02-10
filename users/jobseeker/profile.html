@@ -21,7 +21,17 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
-            <h1 class="text-2xl font-bold text-primary">JobPortal</h1>
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg"
+              >
+                J
+              </div>
+              <span class="text-2xl font-bold text-gray-800 tracking-tight"
+                >JobPortal</span
+              >
+            </div>
             <div class="hidden md:flex ml-10 space-x-8">
               <a
                 href="dashboard.html"
@@ -40,25 +50,27 @@
               >
             </div>
           </div>
-          <button id="logoutBtn" class="text-red-500 font-medium">
+          <button
+            id="logoutBtn"
+            onclick="confirmLogout()"
+            class="my-3 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none"
+          >
             Logout
           </button>
         </div>
       </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
+    <!-- CONTENT -->
     <div class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
       <div class="bg-white shadow-lg rounded-xl overflow-hidden">
-        <!-- Header Banner -->
         <div class="bg-primary h-32 w-full relative">
           <div class="absolute -bottom-10 left-8 group">
-            <!-- AVATAR CONTAINER -->
+            <!-- Avatar -->
             <div
               class="w-24 h-24 bg-white rounded-full p-1 shadow-md relative cursor-pointer overflow-hidden"
               onclick="document.getElementById('profilePicInput').click()"
             >
-              <!-- Image or Initial -->
               <img
                 id="avatar-img"
                 src=""
@@ -70,16 +82,12 @@
               >
                 <span id="avatar-initial">U</span>
               </div>
-
-              <!-- Overlay on Hover -->
               <div
                 class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition rounded-full"
               >
                 <i class="fas fa-camera text-white"></i>
               </div>
             </div>
-
-            <!-- Hidden File Input -->
             <input
               type="file"
               id="profilePicInput"
@@ -90,7 +98,9 @@
         </div>
 
         <div class="pt-12 px-8 pb-8">
-          <div class="flex justify-between items-start">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start gap-4"
+          >
             <div>
               <h2 class="text-2xl font-bold text-gray-800" id="display-name">
                 Loading...
@@ -99,10 +109,9 @@
                 loading@example.com
               </p>
             </div>
-            <!-- PREVIEW BUTTON -->
             <button
               id="previewBtn"
-              class="text-primary border border-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition"
+              class="text-primary border border-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition shadow-sm flex items-center"
             >
               <i class="far fa-eye mr-2"></i> Preview Public Profile
             </button>
@@ -115,8 +124,7 @@
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-sm"
                   >First Name</label
-                >
-                <input
+                ><input
                   type="text"
                   id="first_name"
                   required
@@ -126,8 +134,7 @@
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-sm"
                   >Last Name</label
-                >
-                <input
+                ><input
                   type="text"
                   id="last_name"
                   required
@@ -135,36 +142,29 @@
                 />
               </div>
             </div>
-
             <div>
               <label class="block text-gray-700 font-medium mb-2 text-sm"
                 >Professional Headline / Bio</label
-              >
-              <textarea
+              ><textarea
                 id="bio"
                 rows="3"
-                placeholder="e.g. Passionate Web Developer..."
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
               ></textarea>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-sm"
                   >Skills (Comma separated)</label
-                >
-                <input
+                ><input
                   type="text"
                   id="skills"
-                  placeholder="HTML, CSS, JS"
                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
                 />
               </div>
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-sm"
                   >Experience</label
-                >
-                <select
+                ><select
                   id="experience"
                   class="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-primary outline-none"
                 >
@@ -175,19 +175,15 @@
                 </select>
               </div>
             </div>
-
             <div>
               <label class="block text-gray-700 font-medium mb-2 text-sm"
                 >Highest Education</label
-              >
-              <input
+              ><input
                 type="text"
                 id="education"
-                placeholder="e.g. BSc Computer Science"
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
               />
             </div>
-
             <div class="flex justify-end">
               <button
                 type="submit"
@@ -202,7 +198,76 @@
       </div>
     </div>
 
-    <!-- PREVIEW MODAL (Same as Employer View) -->
+    <!-- CUSTOM ALERT MODAL -->
+    <div
+      id="customAlert"
+      class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[100] backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+        id="customAlertContent"
+      >
+        <div class="p-6 text-center">
+          <div
+            class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4"
+            id="alertIconContainer"
+          >
+            <i class="fas fa-info text-3xl text-primary" id="alertIcon"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2" id="alertTitle">
+            Notification
+          </h3>
+          <p class="text-gray-500 text-sm mb-6" id="alertMessage">Message...</p>
+          <button
+            onclick="closeCustomAlert()"
+            class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:-translate-y-0.5"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOM CONFIRM MODAL -->
+    <div
+      id="customConfirm"
+      class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[100] backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+        id="confirmContent"
+      >
+        <div class="p-6 text-center">
+          <div
+            class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4"
+          >
+            <i class="fas fa-exclamation-triangle text-3xl text-yellow-600"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2" id="confirmTitle">
+            Logout?
+          </h3>
+          <p class="text-gray-500 text-sm mb-6" id="confirmMessage">
+            Are you sure?
+          </p>
+          <div class="flex gap-3">
+            <button
+              onclick="closeCustomConfirm()"
+              class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-xl transition"
+            >
+              Cancel
+            </button>
+            <button
+              id="confirmBtnAction"
+              class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:-translate-y-0.5"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREVIEW MODAL -->
     <div
       id="profileModal"
       class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[60] backdrop-blur-md"
@@ -220,7 +285,6 @@
         <div class="h-32 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
         <div class="px-8 pb-8 -mt-12 relative">
           <div class="w-24 h-24 bg-white rounded-full p-1 shadow-lg mb-4">
-            <!-- PREVIEW AVATAR -->
             <img
               id="prev-avatar-img"
               src=""
@@ -238,193 +302,39 @@
               <h2 class="text-2xl font-bold text-gray-900" id="prev-name">
                 Name
               </h2>
-              <p class="text-gray-500" id="prev-headline">Role</p>
+              <p class="text-gray-500" id="prev-headline">Job Seeker</p>
             </div>
           </div>
-          <div class="mb-4">
-            <p class="text-gray-600 text-sm" id="prev-bio">Bio...</p>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-gray-50 p-4 rounded-xl">
+              <span class="text-xs font-bold text-gray-400 uppercase"
+                >Experience</span
+              >
+              <p class="font-medium text-gray-800" id="prev-exp">N/A</p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-xl">
+              <span class="text-xs font-bold text-gray-400 uppercase"
+                >Education</span
+              >
+              <p class="font-medium text-gray-800" id="prev-edu">N/A</p>
+            </div>
           </div>
-          <div id="prev-skills" class="flex flex-wrap gap-2"></div>
+          <div class="mb-6">
+            <span class="text-xs font-bold text-gray-400 uppercase">Bio</span>
+            <p class="text-gray-600 mt-1 leading-relaxed text-sm" id="prev-bio">
+              No bio.
+            </p>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-gray-400 uppercase block mb-2"
+              >Skills</span
+            >
+            <div class="flex flex-wrap gap-2" id="prev-skills"></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- SCRIPT -->
-    <script>
-      let currentProfileData = {};
-
-      document.addEventListener("DOMContentLoaded", async () => {
-        // LOGOUT
-        document
-          .getElementById("logoutBtn")
-          .addEventListener("click", async () => {
-            await fetch("../../api/logout.php");
-            window.location.href = "../../auth/login.html";
-          });
-
-        // LOAD PROFILE
-        try {
-          const res = await fetch("../../api/users/profile.php");
-          const result = await res.json();
-
-          if (result.status && result.data) {
-            const user = result.data;
-            currentProfileData = user;
-
-            // Fill Header
-            document.getElementById("display-name").innerText =
-              `${user.first_name} ${user.last_name}`;
-            document.getElementById("display-email").innerText = user.email;
-
-            // Avatar Logic
-            if (user.profile_pic) {
-              document.getElementById("avatar-img").src =
-                "../../api/" + user.profile_pic;
-              document.getElementById("avatar-img").classList.remove("hidden");
-              document
-                .getElementById("avatar-initial-box")
-                .classList.add("hidden");
-            } else {
-              document.getElementById("avatar-initial").innerText =
-                user.first_name.charAt(0);
-            }
-
-            // Fill Form
-            document.getElementById("first_name").value = user.first_name;
-            document.getElementById("last_name").value = user.last_name;
-            document.getElementById("bio").value = user.bio || "";
-            document.getElementById("skills").value = user.skills || "";
-            document.getElementById("education").value = user.education || "";
-            if (user.experience)
-              document.getElementById("experience").value = user.experience;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-
-        // SAVE PROFILE (Including Image)
-        document
-          .getElementById("profileForm")
-          .addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById("saveBtn");
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-
-            const formData = new FormData();
-            formData.append(
-              "first_name",
-              document.getElementById("first_name").value,
-            );
-            formData.append(
-              "last_name",
-              document.getElementById("last_name").value,
-            );
-            formData.append("bio", document.getElementById("bio").value);
-            formData.append("skills", document.getElementById("skills").value);
-            formData.append(
-              "experience",
-              document.getElementById("experience").value,
-            );
-            formData.append(
-              "education",
-              document.getElementById("education").value,
-            );
-
-            // Check file
-            const fileInput = document.getElementById("profilePicInput");
-            if (fileInput.files.length > 0) {
-              formData.append("profile_pic", fileInput.files[0]);
-            }
-
-            try {
-              const res = await fetch("../../api/users/profile.php", {
-                method: "POST",
-                body: formData, // Sending FormData, NOT JSON
-              });
-              const result = await res.json();
-              alert(result.message);
-              location.reload(); // Reload to show new image
-            } catch (err) {
-              alert("Error saving profile");
-            } finally {
-              btn.innerText = "Save Changes";
-              btn.disabled = false;
-            }
-          });
-
-        // PREVIEW BUTTON
-        document.getElementById("previewBtn").addEventListener("click", () => {
-          const modal = document.getElementById("profileModal");
-          const content = document.getElementById("profileContent");
-
-          // Fill Preview Data
-          document.getElementById("prev-name").innerText =
-            document.getElementById("first_name").value +
-            " " +
-            document.getElementById("last_name").value;
-          document.getElementById("prev-headline").innerText = "Job Seeker";
-          document.getElementById("prev-bio").innerText =
-            document.getElementById("bio").value;
-
-          // Preview Avatar
-          const fileInput = document.getElementById("profilePicInput");
-          if (fileInput.files.length > 0) {
-            // Show local preview of new image
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              document.getElementById("prev-avatar-img").src = e.target.result;
-              document
-                .getElementById("prev-avatar-img")
-                .classList.remove("hidden");
-              document
-                .getElementById("prev-avatar-box")
-                .classList.add("hidden");
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-          } else if (currentProfileData.profile_pic) {
-            // Show saved image
-            document.getElementById("prev-avatar-img").src =
-              "../../api/" + currentProfileData.profile_pic;
-            document
-              .getElementById("prev-avatar-img")
-              .classList.remove("hidden");
-            document.getElementById("prev-avatar-box").classList.add("hidden");
-          } else {
-            // Show Initial
-            document.getElementById("prev-avatar-box").innerText = document
-              .getElementById("first_name")
-              .value.charAt(0);
-            document.getElementById("prev-avatar-img").classList.add("hidden");
-            document
-              .getElementById("prev-avatar-box")
-              .classList.remove("hidden");
-          }
-
-          // Skills
-          const skills = document.getElementById("skills").value.split(",");
-          const skillsContainer = document.getElementById("prev-skills");
-          skillsContainer.innerHTML = "";
-          skills.forEach((s) => {
-            if (s.trim())
-              skillsContainer.innerHTML += `<span class="bg-gray-100 px-2 py-1 rounded text-xs border">${s.trim()}</span>`;
-          });
-
-          modal.classList.remove("hidden");
-          setTimeout(() => {
-            content.classList.remove("scale-95", "opacity-0");
-            content.classList.add("scale-100", "opacity-100");
-          }, 10);
-        });
-      });
-
-      function closeModal() {
-        const modal = document.getElementById("profileModal");
-        const content = document.getElementById("profileContent");
-        content.classList.remove("scale-100", "opacity-100");
-        content.classList.add("scale-95", "opacity-0");
-        setTimeout(() => modal.classList.add("hidden"), 300);
-      }
-    </script>
+    <script src="profile.js"></script>
   </body>
 </html>

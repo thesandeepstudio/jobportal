@@ -33,46 +33,87 @@
     </style>
   </head>
   <body class="bg-gray-50 font-sans">
-    
     <!-- NAVBAR -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
-            <h1 class="text-2xl font-bold text-primary">JobPortal</h1>
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg"
+              >
+                J
+              </div>
+              <span class="text-2xl font-bold text-gray-800 tracking-tight"
+                >JobPortal</span
+              >
+            </div>
             <div class="hidden md:flex ml-10 space-x-8">
-              <a href="#" class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium">Find Jobs</a>
-              <a href="my_applications.html" class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">My Applications</a>
-              <a href="profile.html" class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">Profile</a>
+              <a
+                href="#"
+                class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium"
+                >Find Jobs</a
+              >
+              <a
+                href="my_applications.html"
+                class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
+                >My Applications</a
+              >
+              <a
+                href="profile.html"
+                class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
+                >Profile</a
+              >
             </div>
           </div>
 
           <!-- RIGHT SIDE: NOTIFICATION & LOGOUT -->
           <div class="flex items-center gap-4">
-            
             <!-- NOTIFICATION BELL -->
             <div class="relative">
-              <button id="notifBtn" class="text-gray-500 hover:text-primary relative p-2 transition">
+              <button
+                id="notifBtn"
+                class="text-gray-500 hover:text-primary relative p-2 transition"
+              >
                 <i class="fas fa-bell text-xl"></i>
                 <!-- Red Badge Count -->
-                <span id="notifBadge" class="hidden absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white">0</span>
+                <span
+                  id="notifBadge"
+                  class="hidden absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white"
+                  >0</span
+                >
               </button>
 
               <!-- Dropdown Menu -->
-              <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden dropdown-enter">
-                <div class="px-4 py-3 border-b border-gray-50 bg-gray-50 flex justify-between items-center">
+              <div
+                id="notifDropdown"
+                class="hidden absolute right-0 mt-2 w-80 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden dropdown-enter"
+              >
+                <div
+                  class="px-4 py-3 border-b border-gray-50 bg-gray-50 flex justify-between items-center"
+                >
                   <h3 class="font-bold text-gray-700 text-sm">Notifications</h3>
-                  <button onclick="markAllRead()" class="text-xs text-primary hover:underline">Mark all read</button>
+                  <button
+                    onclick="markAllRead()"
+                    class="text-xs text-primary hover:underline"
+                  >
+                    Mark all read
+                  </button>
                 </div>
                 <div id="notifList" class="max-h-64 overflow-y-auto">
-                  <!-- JS will inject items here -->
-                  <div class="p-4 text-center text-gray-400 text-sm">No new notifications</div>
+                  <div class="p-4 text-center text-gray-400 text-sm">
+                    No new notifications
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- LOGOUT -->
-            <button id="logoutBtn" class="ml-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none">
+            <button
+              id="logoutBtn"
+              class="ml-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none"
+            >
               Logout
             </button>
           </div>
@@ -88,16 +129,28 @@
           Browse thousands of job openings from top companies.
         </p>
 
-        <div class="bg-white p-2 rounded-lg shadow-lg flex flex-col md:flex-row gap-2 max-w-4xl">
+        <div
+          class="bg-white p-2 rounded-lg shadow-lg flex flex-col md:flex-row gap-2 max-w-4xl"
+        >
           <div class="flex-1 flex items-center px-4 bg-gray-50 rounded-md">
             <i class="fas fa-search text-gray-400 mr-3"></i>
-            <input type="text" placeholder="Job title or keyword" class="bg-transparent w-full py-3 outline-none text-gray-700" />
+            <input
+              type="text"
+              placeholder="Job title or keyword"
+              class="bg-transparent w-full py-3 outline-none text-gray-700"
+            />
           </div>
           <div class="flex-1 flex items-center px-4 bg-gray-50 rounded-md">
             <i class="fas fa-map-marker-alt text-gray-400 mr-3"></i>
-            <input type="text" placeholder="Location" class="bg-transparent w-full py-3 outline-none text-gray-700" />
+            <input
+              type="text"
+              placeholder="Location"
+              class="bg-transparent w-full py-3 outline-none text-gray-700"
+            />
           </div>
-          <button class="bg-black text-white px-8 py-3 rounded-md font-medium hover:bg-gray-800 transition">
+          <button
+            class="bg-black text-white px-8 py-3 rounded-md font-medium hover:bg-gray-800 transition"
+          >
             Search
           </button>
         </div>
@@ -106,13 +159,20 @@
 
     <!-- MAIN CONTENT (Job Grid) -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 mb-10">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 min-h-[500px]">
-        <h2 class="text-xl font-bold text-gray-800 mb-6">Latest Opportunities</h2>
+      <div
+        class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 min-h-[500px]"
+      >
+        <h2 class="text-xl font-bold text-gray-800 mb-6">
+          Latest Opportunities
+        </h2>
         <div id="loading" class="text-center py-10">
           <i class="fas fa-circle-notch fa-spin text-primary text-3xl"></i>
           <p class="text-gray-500 mt-2">Loading jobs...</p>
         </div>
-        <div id="job-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
+        <div
+          id="job-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"
+        ></div>
         <div id="empty-state" class="hidden text-center py-10">
           <i class="fas fa-briefcase text-gray-300 text-5xl mb-3"></i>
           <p class="text-gray-500">No active jobs found at the moment.</p>
@@ -121,272 +181,140 @@
     </div>
 
     <!-- JOB DETAILS MODAL -->
-    <div id="jobModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm">
-      <div class="bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden transform transition-all scale-95 opacity-0" id="modalContent">
-        <!-- Header -->
-        <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+    <div
+      id="jobModal"
+      class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50 backdrop-blur-sm"
+    >
+      <div
+        class="bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden transform transition-all scale-95 opacity-0"
+        id="modalContent"
+      >
+        <div
+          class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center"
+        >
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-bold text-lg" id="modal-icon">C</div>
+            <div
+              class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-bold text-lg"
+              id="modal-icon"
+            >
+              C
+            </div>
             <div>
-              <h3 class="text-lg font-bold text-gray-800" id="modal-title">Job Title</h3>
-              <p class="text-xs text-gray-500" id="modal-company">Company Name</p>
+              <h3 class="text-lg font-bold text-gray-800" id="modal-title">
+                Job Title
+              </h3>
+              <p class="text-xs text-gray-500" id="modal-company">
+                Company Name
+              </p>
             </div>
           </div>
-          <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition">
+          <button
+            onclick="closeModal()"
+            class="text-gray-400 hover:text-gray-600 transition"
+          >
             <i class="fas fa-times text-xl"></i>
           </button>
         </div>
 
-        <!-- Body -->
         <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
           <div class="grid grid-cols-2 gap-4">
             <div class="bg-gray-50 p-3 rounded-lg">
-              <span class="text-xs text-gray-500 uppercase font-bold">Location</span>
-              <p class="font-medium text-gray-800" id="modal-location">New York</p>
+              <span class="text-xs text-gray-500 uppercase font-bold"
+                >Location</span
+              >
+              <p class="font-medium text-gray-800" id="modal-location">
+                New York
+              </p>
             </div>
             <div class="bg-gray-50 p-3 rounded-lg">
-              <span class="text-xs text-gray-500 uppercase font-bold">Salary</span>
+              <span class="text-xs text-gray-500 uppercase font-bold"
+                >Salary</span
+              >
               <p class="font-medium text-gray-800" id="modal-salary">$50k</p>
             </div>
             <div class="bg-gray-50 p-3 rounded-lg">
-              <span class="text-xs text-gray-500 uppercase font-bold">Job Type</span>
+              <span class="text-xs text-gray-500 uppercase font-bold"
+                >Job Type</span
+              >
               <p class="font-medium text-gray-800" id="modal-type">Full Time</p>
             </div>
             <div class="bg-gray-50 p-3 rounded-lg">
-              <span class="text-xs text-gray-500 uppercase font-bold">Posted</span>
+              <span class="text-xs text-gray-500 uppercase font-bold"
+                >Posted</span
+              >
               <p class="font-medium text-gray-800" id="modal-date">Today</p>
             </div>
           </div>
 
           <div>
-            <span class="text-xs text-gray-500 uppercase font-bold">Description</span>
-            <p class="text-gray-600 mt-2 leading-relaxed whitespace-pre-line text-sm" id="modal-desc">
+            <span class="text-xs text-gray-500 uppercase font-bold"
+              >Description</span
+            >
+            <p
+              class="text-gray-600 mt-2 leading-relaxed whitespace-pre-line text-sm"
+              id="modal-desc"
+            >
               Description...
             </p>
           </div>
         </div>
 
-        <!-- Footer -->
-        <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3">
-          <button onclick="closeModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-lg font-medium transition">Close</button>
-          <button id="btn-apply" class="px-6 py-2 bg-primary text-white hover:bg-blue-600 rounded-lg font-bold shadow-md transition flex items-center">
+        <div
+          class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex justify-end gap-3"
+        >
+          <button
+            onclick="closeModal()"
+            class="px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-lg font-medium transition"
+          >
+            Close
+          </button>
+          <button
+            id="btn-apply"
+            class="px-6 py-2 bg-primary text-white hover:bg-blue-600 rounded-lg font-bold shadow-md transition flex items-center"
+          >
             Apply Now <i class="fas fa-paper-plane ml-2"></i>
           </button>
         </div>
       </div>
     </div>
 
+    <!-- 🟢 NEW: CUSTOM POPUP ALERT MODAL -->
+    <div
+      id="customAlert"
+      class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[100] backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+        id="customAlertContent"
+      >
+        <div class="p-6 text-center">
+          <!-- Icon -->
+          <div
+            class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4"
+            id="alertIconContainer"
+          >
+            <i class="fas fa-info text-3xl text-primary" id="alertIcon"></i>
+          </div>
+          <!-- Title -->
+          <h3 class="text-xl font-bold text-gray-900 mb-2" id="alertTitle">
+            Notification
+          </h3>
+          <!-- Message -->
+          <p class="text-gray-500 text-sm mb-6" id="alertMessage">
+            Message goes here...
+          </p>
+          <!-- Button -->
+          <button
+            onclick="closeCustomAlert()"
+            class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:-translate-y-0.5"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- SCRIPT -->
-    <script>
-      let jobsData = []; 
-
-      document.addEventListener("DOMContentLoaded", async () => {
-        
-        // 1. Initialize Notifications
-        fetchNotifications();
-
-        // 2. Notification Toggle Logic
-        const notifBtn = document.getElementById("notifBtn");
-        const notifDropdown = document.getElementById("notifDropdown");
-
-        notifBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const isHidden = notifDropdown.classList.contains("hidden");
-            if(isHidden) {
-                notifDropdown.classList.remove("hidden");
-                setTimeout(() => notifDropdown.classList.add("dropdown-enter-active"), 10);
-            } else {
-                notifDropdown.classList.remove("dropdown-enter-active");
-                setTimeout(() => notifDropdown.classList.add("hidden"), 100);
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener("click", () => {
-            notifDropdown.classList.remove("dropdown-enter-active");
-            setTimeout(() => notifDropdown.classList.add("hidden"), 100);
-        });
-
-        // 3. Logout Logic
-        document.getElementById("logoutBtn").addEventListener("click", async () => {
-            if (confirm("Logout?")) {
-              await fetch("../../api/logout.php");
-              window.location.href = "../../auth/login.html";
-            }
-        });
-
-        // 4. Load Jobs (WITH CACHE BUSTER FIX)
-        loadJobs();
-      });
-
-      // --- NOTIFICATION FUNCTIONS (WITH CACHE BUSTER) ---
-      async function fetchNotifications() {
-          try {
-              // Added timestamp ?t=... to prevent caching
-              const res = await fetch(`../../api/notifications.php?t=${new Date().getTime()}`);
-              const result = await res.json();
-
-              if(result.status) {
-                  const badge = document.getElementById("notifBadge");
-                  const list = document.getElementById("notifList");
-
-                  // Update Badge
-                  if(result.unread_count > 0) {
-                      badge.innerText = result.unread_count;
-                      badge.classList.remove("hidden");
-                  } else {
-                      badge.classList.add("hidden");
-                  }
-
-                  // Update List
-                  if(result.data.length > 0) {
-                      list.innerHTML = "";
-                      result.data.forEach(notif => {
-                          const bgClass = notif.is_read == 0 ? "bg-blue-50" : "bg-white";
-                          const iconColor = notif.type === 'success' ? 'text-green-500' : 'text-blue-500';
-                          const iconType = notif.type === 'success' ? 'fa-check-circle' : 'fa-info-circle';
-
-                          list.innerHTML += `
-                              <div class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition flex gap-3 ${bgClass}">
-                                  <div class="mt-1 ${iconColor}"><i class="fas ${iconType}"></i></div>
-                                  <div>
-                                      <p class="text-sm text-gray-800 leading-tight">${notif.message}</p>
-                                      <span class="text-[10px] text-gray-400 mt-1 block">${new Date(notif.created_at).toLocaleDateString()}</span>
-                                  </div>
-                              </div>
-                          `;
-                      });
-                  }
-              }
-          } catch(err) {
-              console.error("Notif Error", err);
-          }
-      }
-
-      async function markAllRead() {
-          try {
-              await fetch("../../api/notifications.php", { method: "POST" });
-              document.getElementById("notifBadge").classList.add("hidden");
-              fetchNotifications();
-          } catch(err) { console.error(err); }
-      }
-
-      // --- JOB LOAD FUNCTION (WITH CACHE BUSTER) ---
-      async function loadJobs() {
-        try {
-          // Added timestamp ?t=... to prevent caching
-          const res = await fetch(`../../api/jobs/list.php?t=${new Date().getTime()}`);
-          const result = await res.json();
-          const grid = document.getElementById("job-grid");
-          document.getElementById("loading").classList.add("hidden");
-
-          if (result.status && result.data.length > 0) {
-            jobsData = result.data;
-            grid.classList.remove("hidden");
-            grid.innerHTML = ""; // Clear existing
-            
-            result.data.forEach((job, index) => {
-              const card = document.createElement("div");
-              card.className = "border border-gray-200 rounded-xl p-5 hover:shadow-md transition bg-white flex flex-col justify-between h-full cursor-pointer group";
-              card.onclick = () => openModal(index); 
-              
-              let badgeColor = "bg-blue-50 text-blue-600";
-              if (job.job_type === "Freelance") badgeColor = "bg-green-50 text-green-600";
-
-              card.innerHTML = `
-                  <div>
-                      <div class="flex justify-between items-start mb-3">
-                          <div class="w-10 h-10 rounded bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-lg">
-                              ${job.company_name.charAt(0)}
-                          </div>
-                          <span class="${badgeColor} text-xs font-semibold px-2 py-1 rounded">${job.job_type}</span>
-                      </div>
-                      <h3 class="font-bold text-gray-800 text-lg mb-1 group-hover:text-primary transition">${job.title}</h3>
-                      <p class="text-sm text-gray-500 mb-4">${job.company_name} • ${job.location}</p>
-                      <div class="flex gap-2 mb-4">
-                          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${job.category}</span>
-                          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${job.salary || "Salary hidden"}</span>
-                      </div>
-                  </div>
-                  <div class="flex items-center justify-between pt-4 border-t border-gray-50 mt-auto">
-                      <span class="text-xs text-gray-400">Posted ${new Date(job.created_at).toLocaleDateString()}</span>
-                      <span class="text-primary font-medium text-sm">View Details</span>
-                  </div>
-              `;
-              grid.appendChild(card);
-            });
-          } else {
-            document.getElementById("empty-state").classList.remove("hidden");
-          }
-        } catch (err) { console.error(err); }
-      }
-
-      // --- MODAL FUNCTIONS ---
-      function openModal(index) {
-        const job = jobsData[index];
-        if (!job) return;
-
-        document.getElementById("modal-title").innerText = job.title;
-        document.getElementById("modal-company").innerText = job.company_name;
-        document.getElementById("modal-location").innerText = job.location;
-        document.getElementById("modal-type").innerText = job.job_type;
-        document.getElementById("modal-salary").innerText = job.salary || "Negotiable";
-        document.getElementById("modal-desc").innerText = job.description || "No description provided.";
-        document.getElementById("modal-date").innerText = new Date(job.created_at).toLocaleDateString();
-        document.getElementById("modal-icon").innerText = job.company_name.charAt(0);
-
-        // Apply Button Logic
-        const btn = document.getElementById("btn-apply");
-        btn.onclick = () => applyForJob(job.id);
-        btn.disabled = false;
-        btn.innerHTML = 'Apply Now <i class="fas fa-paper-plane ml-2"></i>';
-
-        // Show Modal
-        const modal = document.getElementById("jobModal");
-        const content = document.getElementById("modalContent");
-        modal.classList.remove("hidden");
-        setTimeout(() => {
-          content.classList.remove("scale-95", "opacity-0");
-          content.classList.add("scale-100", "opacity-100");
-        }, 10);
-      }
-
-      function closeModal() {
-        const modal = document.getElementById("jobModal");
-        const content = document.getElementById("modalContent");
-        content.classList.remove("scale-100", "opacity-100");
-        content.classList.add("scale-95", "opacity-0");
-        setTimeout(() => modal.classList.add("hidden"), 300);
-      }
-
-      async function applyForJob(jobId) {
-        const btn = document.getElementById("btn-apply");
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
-        btn.disabled = true;
-
-        try {
-          const res = await fetch("../../api/jobs/apply.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ job_id: jobId }),
-          });
-          const result = await res.json();
-
-          if (result.status) {
-            btn.className = "px-6 py-2 bg-green-500 text-white rounded-lg font-bold shadow-md flex items-center";
-            btn.innerHTML = 'Applied <i class="fas fa-check ml-2"></i>';
-            setTimeout(() => closeModal(), 1500);
-          } else {
-            alert(result.message);
-            btn.disabled = false;
-            btn.innerHTML = 'Apply Now <i class="fas fa-paper-plane ml-2"></i>';
-          }
-        } catch (err) {
-          console.error(err);
-          alert("Server Error");
-          btn.disabled = false;
-        }
-      }
-    </script>
+    <script src="dashboard.js"></script>
   </body>
 </html>

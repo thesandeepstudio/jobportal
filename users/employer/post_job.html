@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,128 +10,124 @@
         theme: { extend: { colors: { primary: "#407bff" } } },
       };
     </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body class="bg-gray-50 font-sans">
-    
-    <!-- NAVBAR -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <h1 class="text-2xl font-bold text-primary">Employer Panel</h1>
-                    <div class="hidden md:flex ml-10 space-x-8">
-                        <a href="dashboard.html" class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">
-                            Dashboard
-                        </a>
-                        <!-- ACTIVE LINK -->
-                        <a href="post_job.html" class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium">
-                            Post a Job
-                        </a>
-                        <a href="applications.html" class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium">
-                            Applications
-                        </a>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <button id="logoutBtn" class="ml-4 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none">
-                        Logout
-                    </button>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+              <div
+                class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg"
+              >
+                J
+              </div>
+              <span class="text-2xl font-bold text-gray-800 tracking-tight"
+                >JobPortal</span
+              >
             </div>
+            <div class="hidden md:flex ml-10 space-x-8">
+              <a
+                href="dashboard.html"
+                class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
+                >Dashboard</a
+              >
+              <a
+                href="post_job.html"
+                class="text-gray-900 border-b-2 border-primary px-1 pt-1 text-sm font-medium"
+                >Post a Job</a
+              >
+              <a
+                href="applications.html"
+                class="text-gray-500 hover:text-gray-700 px-1 pt-1 text-sm font-medium"
+                >Applications</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center">
+            <button
+              id="logoutBtn"
+              onclick="confirmLogout()"
+              class="ml-4 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none"
+            >
+              Logout
+            </button>
+          </div>
         </div>
+      </div>
     </nav>
 
-    <div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg mb-10">
+    <div
+      class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg mb-10"
+    >
       <h2 class="text-2xl font-bold text-gray-800 mb-6">Post a New Job</h2>
-
       <form id="postJobForm" class="space-y-6">
-        <!-- Title -->
+        <!-- Inputs (Same as before) -->
         <div>
-          <label class="block text-gray-700 font-medium mb-2">Job Title</label>
-          <input
+          <label class="block text-gray-700 font-medium mb-2">Job Title</label
+          ><input
             type="text"
             id="title"
             required
-            placeholder="e.g. Senior React Developer"
             class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
           />
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Category -->
           <div>
-            <label class="block text-gray-700 font-medium mb-2">Category</label>
-            <select
+            <label class="block text-gray-700 font-medium mb-2">Category</label
+            ><select
               id="category"
-              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
+              class="w-full px-4 py-3 border rounded-lg bg-white"
             >
               <option value="IT">IT & Software</option>
               <option value="Marketing">Marketing</option>
               <option value="Design">Design</option>
-              <option value="Finance">Finance</option>
-              <option value="HR">Human Resources</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Medical">Medical</option>
             </select>
           </div>
-
-          <!-- Job Type -->
           <div>
-            <label class="block text-gray-700 font-medium mb-2">Job Type</label>
-            <select
+            <label class="block text-gray-700 font-medium mb-2">Job Type</label
+            ><select
               id="job_type"
-              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none bg-white"
+              class="w-full px-4 py-3 border rounded-lg bg-white"
             >
               <option value="Full Time">Full Time</option>
               <option value="Part Time">Part Time</option>
-              <option value="Contract">Contract</option>
-              <option value="Freelance">Freelance</option>
             </select>
           </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Salary -->
           <div>
-            <label class="block text-gray-700 font-medium mb-2"
-              >Salary Range</label
-            >
-            <input
+            <label class="block text-gray-700 font-medium mb-2">Salary</label
+            ><input
               type="text"
               id="salary"
-              placeholder="e.g. $50k - $70k"
-              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+              class="w-full px-4 py-3 border rounded-lg"
             />
           </div>
-
-          <!-- Location -->
           <div>
-            <label class="block text-gray-700 font-medium mb-2">Location</label>
-            <input
+            <label class="block text-gray-700 font-medium mb-2">Location</label
+            ><input
               type="text"
               id="location"
               required
-              placeholder="e.g. Remote / New York"
-              class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+              class="w-full px-4 py-3 border rounded-lg"
             />
           </div>
         </div>
-
-        <!-- Description -->
         <div>
-          <label class="block text-gray-700 font-medium mb-2"
-            >Job Description</label
-          >
-          <textarea
+          <label class="block text-gray-700 font-medium mb-2">Description</label
+          ><textarea
             id="description"
             rows="5"
             required
-            placeholder="Describe the role and requirements..."
-            class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
+            class="w-full px-4 py-3 border rounded-lg"
           ></textarea>
         </div>
-
-        <!-- Submit -->
         <button
           type="submit"
           class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 rounded-lg shadow-md transition"
@@ -141,13 +137,160 @@
       </form>
     </div>
 
-    <!-- SCRIPT -->
+    <!-- ADD CUSTOM ALERT/CONFIRM HTML BLOCKS HERE (Same as Dashboard) -->
+    <div
+      id="customAlert"
+      class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[100] backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+        id="customAlertContent"
+      >
+        <div class="p-6 text-center">
+          <div
+            class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4"
+            id="alertIconContainer"
+          >
+            <i class="fas fa-info text-3xl text-primary" id="alertIcon"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2" id="alertTitle">
+            Notification
+          </h3>
+          <p class="text-gray-500 text-sm mb-6" id="alertMessage">
+            Message goes here...
+          </p>
+          <button
+            onclick="closeCustomAlert()"
+            class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:-translate-y-0.5"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="customConfirm"
+      class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden flex items-center justify-center z-[100] backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+        id="confirmContent"
+      >
+        <div class="p-6 text-center">
+          <div
+            class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4"
+          >
+            <i class="fas fa-exclamation-triangle text-3xl text-yellow-600"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2" id="confirmTitle">
+            Logout?
+          </h3>
+          <p class="text-gray-500 text-sm mb-6" id="confirmMessage">
+            Are you sure?
+          </p>
+          <div class="flex gap-3">
+            <button
+              onclick="closeCustomConfirm()"
+              class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-xl transition"
+            >
+              Cancel
+            </button>
+            <button
+              id="confirmBtnAction"
+              class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:-translate-y-0.5"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
+      // COPY PASTE THE SAME HELPER FUNCTIONS (showCustomAlert, showCustomConfirm, etc)
+      function showCustomAlert(title, message, type = "info") {
+        /* ... */ const m = document.getElementById("customAlert"),
+          c = document.getElementById("customAlertContent"),
+          t = document.getElementById("alertTitle"),
+          msg = document.getElementById("alertMessage"),
+          icon = document.getElementById("alertIcon"),
+          ic = document.getElementById("alertIconContainer");
+        t.innerText = title;
+        msg.innerText = message;
+        if (type === "success") {
+          icon.className = "fas fa-check text-3xl text-green-600";
+          ic.className =
+            "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4";
+        } else if (type === "error") {
+          icon.className = "fas fa-times text-3xl text-red-600";
+          ic.className =
+            "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4";
+        } else {
+          icon.className = "fas fa-info text-3xl text-primary";
+          ic.className =
+            "mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4";
+        }
+        m.classList.remove("hidden");
+        setTimeout(() => {
+          c.classList.remove("scale-95", "opacity-0");
+          c.classList.add("scale-100", "opacity-100");
+        }, 10);
+      }
+      function closeCustomAlert() {
+        const m = document.getElementById("customAlert"),
+          c = document.getElementById("customAlertContent");
+        c.classList.remove("scale-100", "opacity-100");
+        c.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          m.classList.add("hidden");
+        }, 300);
+      }
+
+      let confirmCallback = null;
+      function showCustomConfirm(title, message, callback) {
+        confirmCallback = callback;
+        document.getElementById("confirmTitle").innerText = title;
+        document.getElementById("confirmMessage").innerText = message;
+        const m = document.getElementById("customConfirm"),
+          c = document.getElementById("confirmContent");
+        m.classList.remove("hidden");
+        setTimeout(() => {
+          c.classList.remove("scale-95", "opacity-0");
+          c.classList.add("scale-100", "opacity-100");
+        }, 10);
+      }
+      function closeCustomConfirm() {
+        const m = document.getElementById("customConfirm"),
+          c = document.getElementById("confirmContent");
+        c.classList.remove("scale-100", "opacity-100");
+        c.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+          m.classList.add("hidden");
+        }, 300);
+        confirmCallback = null;
+      }
+      document
+        .getElementById("confirmBtnAction")
+        .addEventListener("click", () => {
+          if (confirmCallback) confirmCallback();
+          closeCustomConfirm();
+        });
+      function confirmLogout() {
+        showCustomConfirm(
+          "Logout",
+          "Are you sure you want to log out?",
+          async () => {
+            await fetch("../../api/logout.php");
+            window.location.href = "../../auth/login.html";
+          },
+        );
+      }
+
       document
         .getElementById("postJobForm")
         .addEventListener("submit", async (e) => {
           e.preventDefault();
-
           const data = {
             title: document.getElementById("title").value,
             category: document.getElementById("category").value,
@@ -158,37 +301,31 @@
           };
 
           try {
-            // Path: users/employer/post_job.html -> ../../api/jobs/create.php
             const res = await fetch("../../api/jobs/create.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(data),
             });
-
             const result = await res.json();
 
             if (result.status) {
-              alert("Job Posted Successfully! Pending Admin Approval.");
-              window.location.href = "dashboard.html"; 
+              showCustomAlert(
+                "Job Posted!",
+                "Your job is now pending admin approval.",
+                "success",
+              );
+              setTimeout(() => (window.location.href = "dashboard.html"), 2000);
             } else {
-              alert(result.message || "Failed to post job");
-              if (result.message.includes("Unauthorized")) {
+              showCustomAlert(
+                "Failed",
+                result.message || "Could not post job.",
+                "error",
+              );
+              if (result.message.includes("Unauthorized"))
                 window.location.href = "../../auth/login.html";
-              }
             }
           } catch (err) {
-            console.error(err);
-            alert("Server Error");
-          }
-        });
-
-      // Logout Logic
-      document
-        .getElementById("logoutBtn")
-        .addEventListener("click", async () => {
-          if(confirm("Are you sure you want to logout?")) {
-            await fetch("../../api/logout.php");
-            window.location.href = "../../auth/login.html";
+            showCustomAlert("Error", "Server connection failed.", "error");
           }
         });
     </script>
