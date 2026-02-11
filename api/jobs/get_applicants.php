@@ -10,6 +10,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employer') {
 
 $job_id = $_GET['job_id'] ?? null;
 
+if (!$job_id || !is_numeric($job_id)) {
+    echo json_encode(["status" => false, "message" => "Invalid job ID"]);
+    exit;
+}
+
 try {
     $stmt = $pdo->prepare("SELECT id FROM employers WHERE user_id = ?");
     $stmt->execute([$_SESSION['user_id']]);
@@ -18,6 +23,7 @@ try {
     // FIXED: Added 's.profile_pic' to the list
     $sql = "SELECT 
                 a.id as app_id, 
+                a.status,
                 a.applied_at, 
                 u.id as user_id, 
                 u.email, 
