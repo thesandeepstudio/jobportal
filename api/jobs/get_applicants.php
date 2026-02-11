@@ -1,4 +1,8 @@
 <?php
+// 1. Suppress HTML errors breaking JSON
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
 session_start();
 header("Content-Type: application/json");
 require '../db.php';
@@ -10,8 +14,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employer') {
 
 $job_id = $_GET['job_id'] ?? null;
 
-if (!$job_id || !is_numeric($job_id)) {
-    echo json_encode(["status" => false, "message" => "Invalid job ID"]);
+if (!$job_id) {
+    echo json_encode(["status" => false, "message" => "Job ID is missing"]);
     exit;
 }
 
@@ -20,7 +24,12 @@ try {
     $stmt->execute([$_SESSION['user_id']]);
     $employer = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // FIXED: Added 's.profile_pic' to the list
+    if (!$employer) {
+        echo json_encode(["status" => false, "message" => "Employer not found"]);
+        exit;
+    }
+
+    // SQL Query
     $sql = "SELECT 
                 a.id as app_id, 
                 a.status,
@@ -47,7 +56,7 @@ try {
     echo json_encode(["status" => true, "data" => $applicants]);
 
 } catch (Exception $e) {
-    echo json_encode(["status" => false, "message" => "DB Error"]);
+    // Return Clean JSON Error
+    echo json_encode(["status" => false, "message" => "Server Error: " . $e->getMessage()]);
 }
-?>
 ?>

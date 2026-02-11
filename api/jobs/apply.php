@@ -24,10 +24,19 @@ try {
     }
 
     // 2. Check if already applied
-    $check = $pdo->prepare("SELECT id FROM applications WHERE job_id = ? AND jobseeker_id = ?");
+    $check = $pdo->prepare("SELECT status FROM applications WHERE job_id = ? AND jobseeker_id = ?");
     $check->execute([$job_id, $seeker['id']]);
-    if ($check->rowCount() > 0) {
-        echo json_encode(["status" => false, "message" => "You have already applied for this job."]);
+    $existing = $check->fetch(PDO::FETCH_ASSOC);
+
+    if ($existing) {
+        // Custom messages based on status
+        if ($existing['status'] === 'rejected') {
+            echo json_encode(["status" => false, "message" => "Application Rejected: You cannot re-apply for this job."]);
+        } elseif ($existing['status'] === 'hired') {
+            echo json_encode(["status" => false, "message" => "You are already HIRED for this job!"]);
+        } else {
+            echo json_encode(["status" => false, "message" => "You have already applied (Status: " . ucfirst($existing['status']) . ")"]);
+        }
         exit;
     }
 
