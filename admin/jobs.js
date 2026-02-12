@@ -196,14 +196,20 @@ function renderTable(data) {
   }
 
   data.forEach((job) => {
-    // Status Badge
+    // Status Badge Logic
     let statusBadge = "";
-    if (job.status === "active")
+    const status = job.status ? job.status.toLowerCase() : "pending";
+
+    if (status === "active") {
       statusBadge = `<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold border border-green-200">Active</span>`;
-    else if (job.status === "pending")
+    } else if (status === "pending") {
       statusBadge = `<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold border border-yellow-200">Pending</span>`;
-    else
+    } else if (status === "closed") {
+      // NEW: Handle 'closed' status as 'Completed'
+      statusBadge = `<span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold border border-blue-200">Completed</span>`;
+    } else {
       statusBadge = `<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold border border-red-200">Rejected</span>`;
+    }
 
     const tr = document.createElement("tr");
     tr.className = "hover:bg-gray-50 transition border-b border-gray-100 group";

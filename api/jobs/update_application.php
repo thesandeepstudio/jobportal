@@ -67,9 +67,8 @@ try {
         $rejectOthers->execute([$jobId, $app_id]);
 
         // --- B. AUTOMATICALLY CLOSE JOB POST ---
-        // 'closed' status hides it from Job Seekers but keeps it in DB history
-        $closeJob = $pdo->prepare("UPDATE jobs SET status = 'closed' WHERE id = ?");
-        $closeJob->execute([$jobId]);
+$closeJob = $pdo->prepare("UPDATE jobs SET status = 'closed' WHERE id = ?");
+$closeJob->execute([$jobId]);
     } 
     elseif ($status === 'rejected') {
         $msg = "Your application for <b>{$appData['title']}</b> was not successful.";
