@@ -105,6 +105,10 @@ function openJobModal(index) {
       badge.className =
         "px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700";
       badge.innerText = "Active";
+    } else if (job.status === "closed") {
+      badge.className =
+        "px-2 py-1 rounded text-xs font-bold bg-blue-100 text-blue-700";
+      badge.innerText = "Completed";
     } else {
       badge.className =
         "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
