@@ -1,14 +1,14 @@
 <?php
 session_start();
 header("Content-Type: application/json");
-require 'db.php';
+require '../db.php'; // Note the ../ because it's inside api/admin/
 
 $data = json_decode(file_get_contents("php://input"), true);
 $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
 
 if (empty($email) || empty($password)) {
-    echo json_encode(["status" => false, "message" => "Email and Password are required"]);
+    echo json_encode(["status" => false, "message" => "Credentials required"]);
     exit;
 }
 
@@ -19,25 +19,24 @@ try {
 
     if ($user && password_verify($password, $user['password'])) {
         
-        // --- SECURITY UPDATE: BLOCK ADMIN HERE ---
-        if ($user['role'] === 'admin') {
-            echo json_encode(["status" => false, "message" => "Admins must login via the Admin Portal."]);
+        // --- SECURITY UPDATE: ALLOW ONLY ADMIN ---
+        if ($user['role'] !== 'admin') {
+            echo json_encode(["status" => false, "message" => "Access Denied. Admins only."]);
             exit;
         }
 
-        // Normal Login Logic
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role'] = $user['role'];
+        $_SESSION['role'] = 'admin';
         $_SESSION['email'] = $user['email'];
 
         echo json_encode([
             "status" => true,
-            "message" => "Login Successful",
-            "user" => ["id" => $user['id'], "role" => $user['role']]
+            "message" => "Admin Login Successful",
+            "user" => ["role" => "admin"]
         ]);
 
     } else {
-        echo json_encode(["status" => false, "message" => "Invalid Email or Password"]);
+        echo json_encode(["status" => false, "message" => "Invalid Credentials"]);
     }
 } catch (Exception $e) {
     echo json_encode(["status" => false, "message" => "Server Error"]);

@@ -43,119 +43,147 @@ php -v
 Copy and past this into SQL terminal in phpMyAdmin:
 
 ```bash
--- =============================================
--- 1. RESET DATABASE
--- =============================================
-DROP DATABASE IF EXISTS jobportal;
-CREATE DATABASE jobportal;
-USE jobportal;
+-- Cleaned Job Portal Database Schema
+-- Generation Time: Feb 14, 2026
+-- Target: MariaDB/MySQL
 
--- =============================================
--- 2. USERS TABLE (Authentication)
--- =============================================
-CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  role ENUM('jobseeker','employer','admin') NOT NULL,
-  mobile VARCHAR(20) DEFAULT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  reset_code VARCHAR(6) DEFAULT NULL,
-  reset_expiry DATETIME DEFAULT NULL
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- =============================================
--- 3. PROFILES (Job Seekers & Employers)
--- =============================================
+-- 1. Database Setup
+CREATE DATABASE IF NOT EXISTS `jobportal`
+    DEFAULT CHARACTER SET utf8mb4
+    COLLATE utf8mb4_general_ci;
+USE `jobportal`;
 
--- A. Job Seekers Profile
-CREATE TABLE jobseekers (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  first_name VARCHAR(100) DEFAULT NULL,
-  last_name VARCHAR(100) DEFAULT NULL,
-  skills TEXT DEFAULT NULL,
-  experience VARCHAR(255) DEFAULT NULL,
-  education VARCHAR(255) DEFAULT NULL,
-  resume_path VARCHAR(255) DEFAULT NULL,
-  bio TEXT DEFAULT NULL,
-  profile_pic VARCHAR(255) DEFAULT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
+-- 2. Table: users
+-- Core table for authentication and role management
+-- --------------------------------------------------------
+CREATE TABLE `users` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `role` ENUM('jobseeker', 'employer', 'admin') NOT NULL,
+  `mobile` VARCHAR(20) DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `reset_code` VARCHAR(6) DEFAULT NULL,
+  `reset_expiry` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- B. Employers Profile
-CREATE TABLE employers (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  company_name VARCHAR(255) DEFAULT NULL,
-  company_size VARCHAR(50) DEFAULT NULL,
-  industry VARCHAR(100) DEFAULT NULL,
-  location VARCHAR(255) DEFAULT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
+-- 3. Table: employers
+-- Extends users table for employer-specific profiles
+-- --------------------------------------------------------
+CREATE TABLE `employers` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `company_name` VARCHAR(255) DEFAULT NULL,
+  `company_size` VARCHAR(50) DEFAULT NULL,
+  `industry` VARCHAR(100) DEFAULT NULL,
+  `location` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `fk_employer_user` FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================
--- 4. JOB LISTINGS
--- =============================================
-CREATE TABLE jobs (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  employer_id INT NOT NULL,
-  title VARCHAR(255) NOT NULL,
-  category VARCHAR(100) NOT NULL,
-  job_type ENUM('Full Time','Part Time','Contract','Freelance') NOT NULL,
-  salary VARCHAR(50) DEFAULT NULL,
-  description TEXT DEFAULT NULL,
-  location VARCHAR(255) DEFAULT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  status ENUM('pending','active','rejected') DEFAULT 'pending',
-  FOREIGN KEY (employer_id) REFERENCES employers(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
+-- 4. Table: jobseekers
+-- Extends users table for candidate-specific profiles
+-- --------------------------------------------------------
+CREATE TABLE `jobseekers` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `first_name` VARCHAR(100) DEFAULT NULL,
+  `last_name` VARCHAR(100) DEFAULT NULL,
+  `skills` TEXT DEFAULT NULL,
+  `experience` VARCHAR(255) DEFAULT NULL,
+  `education` VARCHAR(255) DEFAULT NULL,
+  `resume_path` VARCHAR(255) DEFAULT NULL,
+  `bio` TEXT DEFAULT NULL,
+  `profile_pic` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `fk_jobseeker_user` FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================
--- 5. APPLICATIONS
--- =============================================
-CREATE TABLE applications (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  job_id INT NOT NULL,
-  jobseeker_id INT NOT NULL,
-  applied_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  status ENUM('applied','interview','rejected','hired') DEFAULT 'applied',
-  FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
-  FOREIGN KEY (jobseeker_id) REFERENCES jobseekers(id) ON DELETE CASCADE,
-  UNIQUE KEY unique_application (job_id, jobseeker_id)
-);
+-- --------------------------------------------------------
+-- 5. Table: jobs
+-- Job postings created by employers
+-- --------------------------------------------------------
+CREATE TABLE `jobs` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `employer_id` INT(11) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `category` VARCHAR(100) NOT NULL,
+  `job_type` ENUM('Full Time', 'Part Time', 'Contract', 'Freelance') NOT NULL,
+  `salary` VARCHAR(50) DEFAULT NULL,
+  `description` TEXT DEFAULT NULL,
+  `location` VARCHAR(255) DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `status` ENUM('pending', 'active', 'rejected', 'closed') DEFAULT 'pending',
+  PRIMARY KEY (`id`),
+  KEY `employer_id` (`employer_id`),
+  CONSTRAINT `fk_job_employer` FOREIGN KEY (`employer_id`)
+    REFERENCES `employers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================
--- 6. NOTIFICATIONS
--- =============================================
-CREATE TABLE notifications (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  title VARCHAR(255) DEFAULT NULL,
-  message TEXT DEFAULT NULL,
-  is_read TINYINT DEFAULT 0,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
+-- 6. Table: applications
+-- Junction table connecting jobseekers to jobs
+-- --------------------------------------------------------
+CREATE TABLE `applications` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `job_id` INT(11) NOT NULL,
+  `jobseeker_id` INT(11) NOT NULL,
+  `applied_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `status` ENUM('applied', 'interview', 'rejected', 'hired') DEFAULT 'applied',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_application` (`job_id`, `jobseeker_id`),
+  KEY `jobseeker_id` (`jobseeker_id`),
+  CONSTRAINT `fk_app_job` FOREIGN KEY (`job_id`)
+    REFERENCES `jobs` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_app_seeker` FOREIGN KEY (`jobseeker_id`)
+    REFERENCES `jobseekers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- =============================================
--- 7. DEFAULT ADMIN USER
--- =============================================
--- Email: admin@gmail.com | Password: adminpassword
-INSERT INTO users (email, password, role, created_at) VALUES
-('admin@gmail.com', '$2y$10$WE3ZqZ9Cnm.IB48y1l6/nuYKVOtg9ENHbFe8yvsjxsxfLm2odAOIi', 'admin', NOW());
+-- --------------------------------------------------------
+-- 7. Table: notifications
+-- System alerts for users regarding application status
+-- --------------------------------------------------------
+CREATE TABLE `notifications` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `title` VARCHAR(255) DEFAULT NULL,
+  `message` TEXT DEFAULT NULL,
+  `is_read` TINYINT(1) DEFAULT 0,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `fk_notif_user` FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+COMMIT;
 ```
 
 ## 3. Running the Project
 
-To start the built-in PHP server, open your terminal in the project folder and run:
+Start Apache and MySQL in XAMPP.
+Open your browser.
+Go to the URL matching your folder name in htdocs:
 
 ```bash
-php -S localhost:8000
+http://localhost/jobportal/index.html
 ```
 
 Now open your browser and go to:
-👉 http://localhost:8000
+👉 http://localhost/jobportal/index.html
 
 ## 4. Project structure
 

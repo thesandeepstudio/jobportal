@@ -17,7 +17,7 @@ document
 
     try {
       // Use the existing Login API
-      const res = await fetch("../api/login.php", {
+      const res = await fetch("../api/admin/login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

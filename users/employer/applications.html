@@ -306,6 +306,13 @@
         function submitDecision(status) {
             pendingAction = status;
 
+            // --- DATE VALIDATION LOGIC ---
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust to local timezone
+            const minDateTime = now.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:MM
+            document.getElementById("schedule-date").min = minDateTime;
+            // -----------------------------
+
             if (status === 'interview') {
                 document.getElementById("schedule-title").innerText = "Schedule Interview";
                 document.getElementById("schedule-desc").innerText = "Select a date and time for the candidate interview.";
