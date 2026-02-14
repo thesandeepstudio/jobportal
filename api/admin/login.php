@@ -1,7 +1,12 @@
 <?php
+// Clear any old session data before starting a new one
+if (session_status() === PHP_SESSION_ACTIVE) {
+    session_destroy();
+}
 session_start();
+
 header("Content-Type: application/json");
-require '../db.php'; // Note the ../ because it's inside api/admin/
+require '../db.php'; 
 
 $data = json_decode(file_get_contents("php://input"), true);
 $email = $data['email'] ?? '';
@@ -19,12 +24,15 @@ try {
 
     if ($user && password_verify($password, $user['password'])) {
         
-        // --- SECURITY UPDATE: ALLOW ONLY ADMIN ---
+        // Check if user is actually an admin
         if ($user['role'] !== 'admin') {
             echo json_encode(["status" => false, "message" => "Access Denied. Admins only."]);
             exit;
         }
 
+        // Successfully verified admin - Regenerate ID for security
+        session_regenerate_id(true);
+        
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = 'admin';
         $_SESSION['email'] = $user['email'];
